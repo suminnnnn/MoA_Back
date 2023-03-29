@@ -36,13 +36,13 @@ public class User {
     @Column(name = "join_date")
     private LocalDate joinDate;
 
-    public User(String email, String password, String gender, String name, int age) {
+    public User(String email,String password, String gender, String name, int age) {
         this.email = email;
         this.password = password;
         this.gender = gender;
         this.name = name;
         this.age = age;
-        this.joinDate = LocalDate.now();;
+        this.joinDate = LocalDate.now();
     }
 
 
