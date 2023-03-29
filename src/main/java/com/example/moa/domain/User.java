@@ -6,26 +6,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User {
-
     @Id
-    @Column(name = "email")
+    @Column(length = 50, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(length = 100, nullable = false)
     private String password;
 
-    @Column(name = "gender")
+    @Column
     private String gender;
 
-    @Column(name = "name")
+    @Column(length = 15, nullable = false)
     private String name;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "birth_date")
+    private Date birthDate;
 
     @Column(name = "matching_count")
     private int matchingCount;
@@ -36,15 +36,27 @@ public class User {
     @Column(name = "join_date")
     private LocalDate joinDate;
 
-    public User(String email,String password, String gender, String name, int age) {
+    public User(String email, String password, String gender, String name, Date birthDate, int matchingCount, String favoriteFriends, LocalDate joinDate) {
         this.email = email;
         this.password = password;
         this.gender = gender;
         this.name = name;
-        this.age = age;
-        this.joinDate = LocalDate.now();
+        this.birthDate = birthDate;
+        this.matchingCount = matchingCount;
+        this.favoriteFriends = favoriteFriends;
+        this.joinDate = joinDate;
     }
 
+    public User(String email, String password, String gender, String name, Date birthDate)
+    {
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.name = name;
+        this.birthDate = birthDate;
+    }
+
+    public User(){};
 
     public String getEmail() {
         return email;
@@ -78,12 +90,12 @@ public class User {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public int getMatchingCount() {
