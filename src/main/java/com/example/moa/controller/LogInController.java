@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/logIn")
+@RequestMapping("/user")
 public class LogInController {
     @Autowired
     private AuthService authService;

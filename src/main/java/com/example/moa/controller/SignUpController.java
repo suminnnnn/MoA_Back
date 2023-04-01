@@ -25,14 +25,13 @@ public class SignUpController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse> registerUser(@RequestBody SignUpDto signUpDto){
+    public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
         userService.join(signUpDto);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/users/{Email}")
-                .buildAndExpand(signUpDto.getEmail()).toUri();
-
-        return ResponseEntity.created(location).body(new ApiResponse("회원가입이 완료되었습니다.", "201"));
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentContextPath().path("/api/users/{Email}")
+//                .buildAndExpand(signUpDto.getEmail()).toUri();
+        return ResponseEntity.ok(new ApiResponse("회원가입이 완료되었습니다.", "201"));
     }
 
     @PostMapping("/signup/validation")
@@ -40,18 +39,5 @@ public class SignUpController {
         userService.isEmailDuplicate(signUpDto);
         return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody UserDto userDto) {
-
-        Optional<User> user1 = userService.getUserByEmail(user.getEmail());
-        if (user1.isEmpty() || !user.getPassword().equals(user.getPassword())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new ApiResponse("ID, PW를 확인하세요", "400"));
-        }
-        return ResponseEntity.ok(new ApiResponse("로그인에 성공했습니다.", "200"));
-    }
-
 
 }

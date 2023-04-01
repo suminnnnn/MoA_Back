@@ -1,6 +1,7 @@
 package com.example.moa.dto;
 
 import com.example.moa.domain.User;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class UserDto {
     private String email;
     private String password;
