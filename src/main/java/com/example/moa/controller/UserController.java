@@ -23,7 +23,6 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse> registerUser(@RequestBody SignUpDto userDto){
@@ -33,6 +32,12 @@ public class UserController {
                 .buildAndExpand(userDto.getEmail()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse("회원가입이 완료되었습니다.", "201"));
+    }
+
+    @PostMapping("/signup/validation")
+    public ResponseEntity<ApiResponse> validateUser(@RequestBody SignUpDto userDto) {
+        userService.join(userDto);
+        return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
 
     @PostMapping("/login")
