@@ -36,7 +36,7 @@ public class UserController {
 
     @PostMapping("/signup/validation")
     public ResponseEntity<ApiResponse> validateUser(@RequestBody SignUpDto userDto) {
-        userService.join(userDto);
+        userService.isEmailDuplicate(userDto);
         return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
 
