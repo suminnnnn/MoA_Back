@@ -16,6 +16,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
+    @Autowired
     private final UserRepository userRepository;
 
     public void join(SignUpDto userDto) {
