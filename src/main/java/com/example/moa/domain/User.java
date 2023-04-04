@@ -30,8 +30,8 @@ public class User {
     @Column(length = 15, nullable = false)
     private String name;
 
-    @Column(name = "birth_date")
-    private Date birthDate;
+    @Column(name = "birth")
+    private String birth;
 
     @Column(name = "matching_count")
     private int matchingCount;

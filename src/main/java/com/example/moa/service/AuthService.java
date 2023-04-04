@@ -5,6 +5,7 @@ import com.example.moa.dto.UserDto;
 import com.example.moa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,8 @@ public class AuthService {
         User user = userRepository.findByEmail(userdto.getEmail()).orElseThrow(
                 () -> new UsernameNotFoundException("Invalid email or password"));
 
+        System.out.println(user.getPassword());
+        System.out.println(userdto.getPassword());
         if (!passwordEncoder().matches(userdto.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid email or password");
         }
@@ -28,7 +31,8 @@ public class AuthService {
         return user;
     }
 
-    private PasswordEncoder passwordEncoder() {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
