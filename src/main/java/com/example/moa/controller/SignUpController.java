@@ -6,6 +6,7 @@ import com.example.moa.dto.SignUpDto;
 import com.example.moa.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,16 +28,13 @@ public class SignUpController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
         userService.join(signUpDto);
-
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentContextPath().path("/api/users/{Email}")
-//                .buildAndExpand(signUpDto.getEmail()).toUri();
-        return ResponseEntity.ok(new ApiResponse("회원가입이 완료되었습니다.", "201"));
+        //return ResponseEntity.ok(new ApiResponse("회원가입이 완료되었습니다.", "201"));
+        return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.CREATED); //201
     }
 
     @PostMapping("/signup/validation")
-    public ResponseEntity<ApiResponse> validateUser(@RequestBody SignUpDto signUpDto) {
-        userService.isEmailDuplicate(signUpDto);
+    public ResponseEntity<ApiResponse> validateUser(@RequestBody String email) {
+        userService.isEmailDuplicate(email);
         return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
 

@@ -3,6 +3,7 @@ package com.example.moa.dto;
 import com.example.moa.domain.User;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -15,7 +16,6 @@ public class SignUpDto {
     private String password;
     private String gender;
     private String name;
-    private Date birthDate;
 
     public User toEntity() {
        return User.builder()
@@ -23,7 +23,7 @@ public class SignUpDto {
                .password(password)
                .gender(gender)
                .name(name)
-               .birthDate(birthDate)
+               .birthDate(new Date())
                .build();
     }
 

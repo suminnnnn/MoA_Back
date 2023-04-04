@@ -4,9 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,6 +14,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @Column(length = 50, nullable = false)
@@ -38,6 +38,5 @@ public class User {
 
     @Column(name = "favorite_friends")
     private String favoriteFriends;
-
 
 }
