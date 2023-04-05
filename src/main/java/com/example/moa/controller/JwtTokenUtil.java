@@ -21,29 +21,19 @@ import java.util.Date;
 @Component
 public class JwtTokenUtil {
     private String secretKey = "secretKey";
-    private long tokenValidTime = 30 * 60 * 1000L;
-    Date now = new Date();
-
-    //Base64로 인코딩
-    @PostConstruct
-    protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
-    }
 
     public String generateToken(User user) {
-        Claims claims = Jwts.claims()
-                .setSubject("access_token")
-                .setIssuedAt(now) //생성일 설정
-                .setExpiration(new Date(now.getTime() + tokenValidTime)); //만료일 설정
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + 3600000);
+        Claims claims = Jwts.claims().setSubject(user.getEmail());
 
-        claims.put("key", "value");
+        claims.put("userEmail", user.getEmail());
 
-        String jwt = Jwts.builder()
-                .setClaims(claims) // 정보 저장
-                .signWith(SignatureAlgorithm.HS256,  secretKey.getBytes())  // 사용할 암호화 알고리즘과
-                // signature 에 들어갈 secret값 세팅
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiration)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
-
-        return jwt;
     }
 }

@@ -2,6 +2,7 @@ package com.example.moa.controller;
 
 import com.example.moa.domain.User;
 import com.example.moa.dto.AuthResponse;
+import com.example.moa.dto.SignUpDto;
 import com.example.moa.dto.UserDto;
 import com.example.moa.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,12 @@ public class LogInController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    @PostMapping("/connect")
+    public ResponseEntity<?> connect(@RequestBody UserDto userDto){
+
+        return ResponseEntity.ok(userDto);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto userDto) {
