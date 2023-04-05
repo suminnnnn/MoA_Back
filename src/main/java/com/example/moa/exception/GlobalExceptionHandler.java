@@ -41,6 +41,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
+        System.out.println(ex);
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("errorCode", "INTERNAL_SERVER_ERROR");
         errorResponse.put("errorMessage", "서버 내부 오류가 발생했습니다.");
