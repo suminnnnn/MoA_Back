@@ -19,12 +19,12 @@ public class UserService {
     @Autowired
     private final UserRepository userRepository;
 
-    public void join(SignUpDto userDto) {
-        userRepository.save(userDto.toEntity());
+    public User join (SignUpDto signUpDto) {
+        return userRepository.save(signUpDto.toEntity());
     }
 
-    public void isEmailDuplicate(SignUpDto userDto) {
-        userRepository.findByEmail(userDto.getEmail())
+    public void isEmailDuplicate(String email) {
+        userRepository.findByEmail(email)
                 .ifPresent(m -> {
                     throw new DuplicateEmailException("Duplicate email");
                 });

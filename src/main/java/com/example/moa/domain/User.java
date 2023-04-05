@@ -14,6 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class User {
     @Id
@@ -29,8 +30,8 @@ public class User {
     @Column(length = 15, nullable = false)
     private String name;
 
-    @Column
-    private Date birthDate;
+    @Column(name = "birth")
+    private String birth;
 
     @Column
     private int matchingCount;
@@ -38,7 +39,4 @@ public class User {
     @Column
     private String favoriteFriends;
 
-    public User() {
-
-    }
 }
