@@ -31,24 +31,24 @@ public class SignUpController {
         return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.CREATED); //201
     }
 
-    @GetMapping("/validation")
-    public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, @RequestParam String email) {
-        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-        return ResponseEntity.ok()
-                .header(csrfToken.getHeaderName(), csrfToken.getToken())
-                .body(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
-    }
-
-    @GetMapping("/csrf")
-    public CsrfToken csrf(CsrfToken token) {
-        return token;
-    }
-
 //    @GetMapping("/validation")
-//    public ResponseEntity<ApiResponse> validateUser(@RequestParam String email) {
-//        userService.isEmailDuplicate(email);
-//        return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
+//    public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, @RequestParam String email) {
+//        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+//        return ResponseEntity.ok()
+//                .header(csrfToken.getHeaderName(), csrfToken.getToken())
+//                .body(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
 //    }
+//
+//    @GetMapping("/csrf")
+//    public CsrfToken csrf(CsrfToken token) {
+//        return token;
+//    }
+
+    @GetMapping("/validation")
+    public ResponseEntity<ApiResponse> validateUser(@RequestParam String email) {
+        userService.isEmailDuplicate(email);
+        return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
+    }
 
 //    @GetMapping("/validation")
 //    public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, HttpServletResponse response, @RequestParam String email) {
