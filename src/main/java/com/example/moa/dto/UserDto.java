@@ -15,10 +15,10 @@ public class UserDto {
     private String email;
     private String password;
 
-    public UserDto from(User user){
-        return UserDto.builder()
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .build();
-    }
+//    public UserDto from(User user){
+//        return UserDto.builder()
+//                .email(user.getEmail())
+//                .password(user.getPassword())
+//                .build();
+//    }
 }

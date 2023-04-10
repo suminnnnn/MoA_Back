@@ -1,4 +1,4 @@
-package com.example.moa.dto;
+package com.example.moa.jwt;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

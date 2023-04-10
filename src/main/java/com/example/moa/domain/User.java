@@ -1,13 +1,12 @@
 package com.example.moa.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -38,5 +37,8 @@ public class User {
 
     @Column(name = "favorite_friends")
     private String favoriteFriends;
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    private List<Recruit> recruitments = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
 package com.example.moa.exception;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,15 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<Object> JwtException(JwtException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("errorCode", "JWT_TOKEN_FAIL");
+        errorResponse.put("errorMessage", "토큰 검증을 실패했습니다.");
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<Object> handleDuplicateEmailException(DuplicateEmailException ex) {

@@ -4,7 +4,6 @@ import com.example.moa.dto.SignUpDto;
 import com.example.moa.service.AuthService;
 import com.example.moa.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ public class SignUpController {
     private final UserService userService;
 
     @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignUpDto signUpDto){
@@ -31,24 +30,24 @@ public class SignUpController {
         return new ResponseEntity<>("회원가입이 완료되었습니다.", HttpStatus.CREATED); //201
     }
 
-//    @GetMapping("/validation")
-//    public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, @RequestParam String email) {
-//        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-//        return ResponseEntity.ok()
-//                .header(csrfToken.getHeaderName(), csrfToken.getToken())
-//                .body(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
-//    }
-//
-//    @GetMapping("/csrf")
-//    public CsrfToken csrf(CsrfToken token) {
-//        return token;
-//    }
-
     @GetMapping("/validation")
-    public ResponseEntity<ApiResponse> validateUser(@RequestParam String email) {
-        userService.isEmailDuplicate(email);
-        return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
+    public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, @RequestParam String email) {
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        return ResponseEntity.ok()
+                .header(csrfToken.getHeaderName(), csrfToken.getToken())
+                .body(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
+
+    @GetMapping("/csrf")
+    public CsrfToken csrf(CsrfToken token) {
+        return token;
+    }
+
+//    @GetMapping("/validation")
+//    public ResponseEntity<ApiResponse> validateUser(@RequestParam String email) {
+//        userService.isEmailDuplicate(email);
+//        return ResponseEntity.ok(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
+//    }
 
 //    @GetMapping("/validation")
 //    public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, HttpServletResponse response, @RequestParam String email) {

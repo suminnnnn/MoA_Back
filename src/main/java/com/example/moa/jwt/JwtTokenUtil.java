@@ -1,22 +1,16 @@
-package com.example.moa.controller;
+package com.example.moa.jwt;
 
 import com.example.moa.domain.User;
-import com.example.moa.service.AuthService;
-import com.example.moa.service.UserService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -40,13 +34,33 @@ public class JwtTokenUtil {
                 .setExpiration(new Date(now.getTime() + tokenValidTime)); //만료일 설정
 
         claims.put("key", "value");
+        claims.put("email", user.getEmail());
+        claims.put("username", user.getName());
 
-        String jwt = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims) // 정보 저장
                 .signWith(key, SignatureAlgorithm.HS256)  // 사용할 암호화 알고리즘과
                 // signature 에 들어갈 secret값 세팅
                 .compact();
-
-        return jwt;
     }
+
+    // JWT 토큰에서 Claims 추출
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // 토큰 검증
+    public boolean validateToken(String token) {
+        Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
+
+        return true;
+    }
+
 }

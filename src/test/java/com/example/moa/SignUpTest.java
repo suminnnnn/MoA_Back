@@ -2,21 +2,18 @@ package com.example.moa;
 
 import com.example.moa.domain.User;
 import com.example.moa.dto.SignUpDto;
-import com.example.moa.service.UserService;
+import com.example.moa.service.UserServiceImpl;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 @SpringBootTest
 @Transactional
 public class SignUpTest {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
     public void signUpTest() throws Exception {
