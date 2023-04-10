@@ -27,12 +27,12 @@ public class Ingredient {
     private LocalDate registeredDate;
 
     @Lob
-    @Column(nullable = false)
-    private byte[] photo;
+    //@Column(nullable = false)
+    private byte[] ingredientImage;
 
     @Lob
-    @Column(nullable = false)
-    private byte[] receiptPhoto;
+    //@Column(nullable = false)
+    private byte[] receiptImage;
 
     @Column(nullable = false)
     private LocalDate purchasedDate;
