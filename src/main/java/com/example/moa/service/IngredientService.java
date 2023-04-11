@@ -35,10 +35,9 @@ public class IngredientService {
         // 2. 서버에 파일 저장 & DB에 파일 정보(fileinfo) 저장
         // - 동일 파일명을 피하기 위해 random값 사용
         String originalFilename = multipartFile.getOriginalFilename();
-        System.out.println("originalFilename = " + originalFilename);
         //String saveFileName = createSaveFileName(originalFilename);
 
-        String url = "/Users/tlsss/Desktop/" + originalFilename;
+        String url = "C:/Users/tlsss/Desktop/imageMoa/receipt/" + originalFilename;
 
         // 2-1.서버에 파일 저장
         multipartFile.transferTo(new File(url));
@@ -52,7 +51,7 @@ public class IngredientService {
         String originalFilename = multipartFile.getOriginalFilename();
         //String saveFileName = createSaveFileName(originalFilename);
 
-        String url = "/Users/tlsss/Desktop/" + originalFilename;
+        String url = "C:/Users/tlsss/Desktop/imageMoa/ingredient/" + originalFilename;
 
         // 2-1.서버에 파일 저장
         multipartFile.transferTo(new File(url));
@@ -70,6 +69,8 @@ public class IngredientService {
                 .registeredDate(now)
                 .purchasedDate(ingredientDto.getPurchasedDate())
                 .expirationDate(ingredientDto.getExpirationDate())
+                .ingredientImage(ingredientDto.getIngredientImage())
+                .receiptImage(ingredientDto.getReceiptImage())
                 .build();
 
         ingredientRepository.save(ingredient);

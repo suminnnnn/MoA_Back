@@ -29,18 +29,18 @@ public class IngredientController {
             return new ResponseEntity<>("재료 파일이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
         String url = ingredientService.uploadImage(file);
-        return new ResponseEntity<>("재료 URL:" + url, HttpStatus.CREATED);
+        return new ResponseEntity<>(url, HttpStatus.CREATED);
     }
 
     //2. 영수증 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
     @PostMapping("/receiptimage")
-    public ResponseEntity<?> receiptImage(@RequestParam(value ="file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> receiptImage(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             return new ResponseEntity<>("영수증 파일이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
         String url = ingredientService.uploadReceiptImage(file);
-        return new ResponseEntity<>("영수증 URL:" + url, HttpStatus.CREATED);
+        return new ResponseEntity<>(url, HttpStatus.CREATED);
     }
 
     @PostMapping("/register")
