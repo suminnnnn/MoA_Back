@@ -13,7 +13,11 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -26,6 +30,36 @@ public class IngredientService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public String uploadReceiptImage(MultipartFile multipartFile) throws IOException {
+        // 2. 서버에 파일 저장 & DB에 파일 정보(fileinfo) 저장
+        // - 동일 파일명을 피하기 위해 random값 사용
+        String originalFilename = multipartFile.getOriginalFilename();
+        System.out.println("originalFilename = " + originalFilename);
+        //String saveFileName = createSaveFileName(originalFilename);
+
+        String url = "/Users/tlsss/Desktop/" + originalFilename;
+
+        // 2-1.서버에 파일 저장
+        multipartFile.transferTo(new File(url));
+
+        return url;
+    }
+
+    public String uploadImage(MultipartFile multipartFile) throws IOException {
+        // 2. 서버에 파일 저장 & DB에 파일 정보(fileinfo) 저장
+        // - 동일 파일명을 피하기 위해 random값 사용
+        String originalFilename = multipartFile.getOriginalFilename();
+        //String saveFileName = createSaveFileName(originalFilename);
+
+        String url = "/Users/tlsss/Desktop/" + originalFilename;
+
+        // 2-1.서버에 파일 저장
+        multipartFile.transferTo(new File(url));
+
+        return url;
+    }
+
 
     public void register(IngredientDto ingredientDto, User user) {
         LocalDate now = LocalDate.now();
