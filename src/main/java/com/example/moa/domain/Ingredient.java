@@ -26,13 +26,11 @@ public class Ingredient {
 
     private LocalDate registeredDate;
 
-    @Lob
-    //@Column(nullable = false)
-    private byte[] ingredientImage;
+    @Column(nullable = false)
+    private String ingredientImage;
 
-    @Lob
-    //@Column(nullable = false)
-    private byte[] receiptImage;
+    @Column(nullable = false)
+    private String receiptImage;
 
     @Column(nullable = false)
     private LocalDate purchasedDate;
