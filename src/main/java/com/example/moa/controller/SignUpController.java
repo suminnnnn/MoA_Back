@@ -32,6 +32,7 @@ public class SignUpController {
 
     @GetMapping("/validation")
     public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, @RequestParam String email) {
+        userService.isEmailDuplicate(email);
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         return ResponseEntity.ok()
                 .header(csrfToken.getHeaderName(), csrfToken.getToken())

@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class LogInController {
+public class LogInController extends BaseController{
     @Autowired
     private AuthService authService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(HttpServletRequest request, @RequestBody UserDto userDto) {

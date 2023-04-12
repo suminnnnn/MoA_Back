@@ -1,11 +1,13 @@
 package com.example.moa.dto;
 
 import com.example.moa.domain.Recruit;
+import com.example.moa.domain.RecruitUser;
 import com.example.moa.domain.User;
 import com.example.moa.service.UserService;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -29,9 +31,10 @@ public class RecruitRequestDto {
 
     private String content;
 
-    public Recruit toEntity(UserService userService) {
-        User writer = userService.getUserByEmail(writerEmail)
-                .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + writerEmail));
+    public Recruit toEntity(User writer) {
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String createdAt = localDateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
 
         return Recruit.builder()
                 .foodName(foodName)
@@ -41,6 +44,7 @@ public class RecruitRequestDto {
                 .writer(writer)
                 .title(title)
                 .content(content)
+                .createdAt(createdAt)
                 .build();
     }
 }

@@ -53,6 +53,11 @@ public class JwtTokenUtil {
                 .getBody();
     }
 
+    public String getEmailFromToken(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("email", String.class);
+    }
+
     // 토큰 검증
     public boolean validateToken(String token) {
         Jwts.parserBuilder()

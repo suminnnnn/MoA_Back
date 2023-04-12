@@ -8,13 +8,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Setter
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class RecruitResponseDto {
 
-    private Long id;
+    private Long recruitId;
 
     private String foodName;
 
@@ -39,7 +38,7 @@ public class RecruitResponseDto {
         User writer = recruit.getWriter();
 
         return RecruitResponseDto.builder()
-                .id(recruit.getId())
+                .recruitId(recruit.getRecruitId())
                 .foodName(recruit.getFoodName())
                 .ingredients(recruit.getIngredients())
                 .maxPeople(recruit.getMaxPeople())

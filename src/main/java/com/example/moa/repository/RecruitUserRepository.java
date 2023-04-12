@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
-public interface RecruitRepository extends JpaRepository<Recruit, Long> {
-    Recruit findByRecruitId(Long recruitId);
-
+public interface RecruitUserRepository extends JpaRepository<RecruitUser, Long> {
+    List<RecruitUser> findByRecruit(Recruit recruit);
 }
