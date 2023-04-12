@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "skilled-duality-383318",
+  "private_key_id": "c3fdebb0b3af99f47660cc021da6ac9d0138b41d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC/Va9AWxo9VvMM\nHntiybXQntHOrYPNZepbyszStTniLqGu+jZwO3ePzCk2jidXbRl1Ai6F9cBKU7dI\n8ZzjeFTULVfHwTHvzEkVojADHXhkbRLhQ00/bcHybpT9Q62gywA60fVjLKxSKO66\nErfwLW9QuqDkJYQwXg22iLnJ9A6LBh5Wp02D664HDIF8dNi9ihpA7O6FqDZmEIYH\nfd0dzrgdqhF791WKgxUV5z+ghc00tIUyMet4SQR7STIsOypl1DA7LJ4Hh8UZ8E+j\nVvh/EzSjUfcb2edGQJ+6eR+ZWsdZrG+8IXDdxhg8tf6FoTfKiWyeSQpeA4YI+EFt\n/DmFMmInAgMBAAECggEABlD6UZoQUjESIfbJpPe6uFHd5EBHJxszsucNfvE7oXNf\npAqfjHHyHv2i6Kmls9Wmrv2s8oAr4mhEFzTetIWu6zg5+x6uGtf4G644fonVBR+y\nrVwO60agzfOHmJrI2xOIhOiUfLsnTykJxHvEtbmSQKyAjjeM1xnrwvhdhcS4TC+P\nRQraLO+L4ihZTxnr1UrS94ZofZxXUMm/3ZmNHpLggyHo5LZmJqJGA9xMu1umiEAs\nkxseleBR0pYzs5seZQNHBfWLUhj5QQLkEYS/uqNo+TX4ElpILnhz7TRqTlVube2b\n5Oo8vJfLCxQdbZ2zGR3qd9MIqtW9SJI3rTg58u4pPQKBgQD+Od+y4MuWaXclMWVs\n+wTf796HZTHOutmKQwyvhTctX3RVrSe6KcaND86r9K7o5voETRgc1QLD7QobTe8r\nQHZOF8oQaEX4kEzbsC0Tfc0nqV9YLg3v16wK/b9rd6QUGPYuyrTRHX8a6IHcYSrH\nohfpV88kh7xIB1uz0Wu++cVplQKBgQDAq3emBYwHFbeAcqwnC77/8LGh/f171Aei\ncs5z7TIvVZ5FtAjViBbMC70KRnKBKFAW10rzBhapSTMp0sgAyXczdbuAeJaoJ2j9\ndM/v2GARwRk4mOoixNMg/rYX6S8+exoGMOQduuPQy0fkpPNOhAbUxiaJnegX7W/L\n2+F0E8jFywKBgQDX44HKQAfjlXBuj0IYiBqdqO+Kfy8K5bXzKflN3Iz85QC/+Smx\nd+R6yh+x+znF4tAScv21Dlco1tUsVsRyMG3G54Da6hHxgWkjbrr4wG5F7hlfosyH\nDtm1A8NYmeMmhgQZvF5M7wWPbj9JTOKtYUN5Du6DkRkc+dKwI3miVi2E+QKBgH6r\nfMNjHDfAOF+zhKk7GLzOMwrsoM3bjZVo44Dl7juej6sF/VTd3xcRlJx/ymJN7bHG\no9j5JMbxgDi8ApA55Cup+LczEOHG30jblqX6XNbvXDSQnEZ1ntUvgOphfZUXe/mc\nBS3ipEquizqwk+IH/THAgK+zaFbq3LhrfGNDaplXAoGAVDMJfvXVRshVawMzTDMG\nlqJkWljGMBwdH+CntCJQvcgJcjzBpJ4YMTtjwnl3UomfSL1X7quC4RKPwt0CCBcw\nGM7FpwlMnXuuOy77xbYIONPB/HNr44se0U+Qr0yC3cDD6dFrKlWzlGGGUlt6cok6\nCuAN96mNhwiBnj/gKj40nCs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "moa-120@skilled-duality-383318.iam.gserviceaccount.com",
+  "client_id": "109583142827872021931",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/moa-120%40skilled-duality-383318.iam.gserviceaccount.com"
+}

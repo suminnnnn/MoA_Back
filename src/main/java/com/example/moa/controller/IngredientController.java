@@ -4,6 +4,8 @@ import com.example.moa.domain.User;
 import com.example.moa.dto.IngredientDto;
 import com.example.moa.service.IngredientService;
 import com.example.moa.service.UserService;
+import com.example.moa.service.VisionApiService;
+import com.google.cloud.vision.v1.EntityAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/ingredient")
@@ -22,6 +25,12 @@ public class IngredientController {
     @Autowired
     UserService userService;
 
+    private final VisionApiService visionApiService;
+
+    public IngredientController(VisionApiService visionApiService) {
+        this.visionApiService = visionApiService;
+    }
+
     //1. 재료 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
     @PostMapping("/image")
     public ResponseEntity<?> ingredientImage(@RequestParam(value = "file",required = false) MultipartFile file) throws IOException {
@@ -29,7 +38,10 @@ public class IngredientController {
             return new ResponseEntity<>("재료 파일이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
         String url = ingredientService.uploadImage(file);
-        return new ResponseEntity<>(url, HttpStatus.CREATED);
+
+        List<String> foodLabels = ingredientService.getLabelsFromImage(url);
+
+        return new ResponseEntity<>(foodLabels, HttpStatus.OK);
     }
 
     //2. 영수증 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
@@ -40,7 +52,8 @@ public class IngredientController {
         }
 
         String url = ingredientService.uploadReceiptImage(file);
-        return new ResponseEntity<>(url, HttpStatus.CREATED);
+
+        return new ResponseEntity<>(url, HttpStatus.OK);
     }
 
     @PostMapping("/register")
