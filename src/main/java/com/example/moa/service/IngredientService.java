@@ -21,20 +21,23 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
+import com.google.auth.oauth2.GoogleCredentials;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class IngredientService {
-    @Value("${google.cloud.vision.api.key}")
-    private String apiKey;
 
     @Autowired
     private IngredientRepository ingredientRepository;
@@ -69,38 +72,92 @@ public class IngredientService {
         return url;
     }
 
-    public List<String> getLabelsFromImage(String imageUrl) throws IOException {
-        // Google Cloud Vision API에 요청을 보내고 응답을 분석합니다.
-        List<String> labels = new ArrayList<>();
+//    public List<String> getLabelsFromImage(String imageUrl) throws IOException {
+//        // Google Cloud Vision API에 요청을 보내고 응답을 분석합니다.
+//        List<String> labels = new ArrayList<>();
+//
+//        try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
+//            // 이미지 URL로부터 이미지 데이터를 가져옵니다.
+//            ByteString imgBytes = ByteString.readFrom(new URL(imageUrl).openStream());
+//
+//            // 이미지에서 라벨을 감지합니다.
+//            List<AnnotateImageRequest> requests = new ArrayList<>();
+//            Image img = Image.newBuilder().setContent(imgBytes).build();
+//            Feature feat = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
+//            AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
+//            requests.add(request);
+//
+//            BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
+//            List<AnnotateImageResponse> responses = response.getResponsesList();
+//
+//            for (AnnotateImageResponse res : responses) {
+//                if (res.hasError()) {
+//                    System.err.println("Error: " + res.getError().getMessage());
+//                    return labels;
+//                }
+//
+//                for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
+//                    labels.add(annotation.getDescription());
+//                }
+//            }
+//        }
+//
+//        return labels;
+//    }
 
-        try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
-            // 이미지 URL로부터 이미지 데이터를 가져옵니다.
-            ByteString imgBytes = ByteString.readFrom(new URL(imageUrl).openStream());
+    public String getLabelsFromImage(String imgFilePath) throws Exception {
 
-            // 이미지에서 라벨을 감지합니다.
+        AtomicReference<String> labels = new AtomicReference<>("");
+
+        ImageAnnotatorClient client = ImageAnnotatorClient.create();
+
+        try (ImageAnnotatorClient vision = ImageAnnotatorClient.create()) {
+
+            // Reads the image file into memory
+            Path path = Paths.get(imgFilePath);
+            byte[] data = Files.readAllBytes(path);
+            ByteString imgBytes = ByteString.copyFrom(data);
+
+            // Builds the image annotation request
             List<AnnotateImageRequest> requests = new ArrayList<>();
             Image img = Image.newBuilder().setContent(imgBytes).build();
             Feature feat = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
-            AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
+            AnnotateImageRequest request =
+                    AnnotateImageRequest.newBuilder()
+                            .addFeatures(feat)
+                            .setImage(img)
+                            .build();
             requests.add(request);
 
-            BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
+            // Performs label detection on the image file
+            BatchAnnotateImagesResponse response = vision.batchAnnotateImages(requests);
             List<AnnotateImageResponse> responses = response.getResponsesList();
 
             for (AnnotateImageResponse res : responses) {
                 if (res.hasError()) {
-                    System.err.println("Error: " + res.getError().getMessage());
-                    return labels;
+                    System.out.format("[ERROR]: %s%n", res.getError().getMessage());
+                    return null;
                 }
 
+                //List<ImgDescription> keywords;
                 for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
-                    labels.add(annotation.getDescription());
+                    annotation
+                            .getAllFields()
+                            .forEach((k, v) -> {
+                                List<String> fieldNames = List.of(k.toString().split("."));
+                                System.out.format("%-16s : %s\n", fieldNames.get(fieldNames.size()), v.toString());
+                                if (k.toString().contains("description")) {
+                                    System.out.format("%s, ", v.toString());
+                                    labels.set(labels + v.toString() + "\n");
+                                }
+                            });
                 }
             }
         }
 
-        return labels;
+        return labels.toString();
     }
+
 
     public void register(IngredientDto ingredientDto, User user) {
         LocalDate now = LocalDate.now();
