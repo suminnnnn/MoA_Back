@@ -1,5 +1,6 @@
 package com.example.moa.dto;
 
+import com.example.moa.domain.Ingredient;
 import com.example.moa.domain.Recruit;
 import com.example.moa.domain.RecruitUser;
 import com.example.moa.domain.User;
@@ -19,7 +20,7 @@ public class RecruitRequestDto {
 
     private String foodName;
 
-    private List<String> ingredients;
+    private List<Ingredient> ingredients;
 
     private int maxPeople;
 

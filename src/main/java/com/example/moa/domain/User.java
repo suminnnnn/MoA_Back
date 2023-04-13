@@ -41,4 +41,7 @@ public class User {
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<Recruit> recruitments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "Id",cascade = CascadeType.ALL)
+    private List<Ingredient> ingredients;
+
 }

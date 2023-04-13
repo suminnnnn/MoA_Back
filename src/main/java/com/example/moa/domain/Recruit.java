@@ -25,7 +25,7 @@ public class Recruit {
     private String foodName;
 
     @ElementCollection
-    private List<String> ingredients;
+    private List<Ingredient> ingredients;
 
     private int maxPeople;
 

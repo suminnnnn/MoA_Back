@@ -33,9 +33,9 @@ public class SignUpController {
     @GetMapping("/validation")
     public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, @RequestParam String email) {
         userService.isEmailDuplicate(email);
-        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+       // CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         return ResponseEntity.ok()
-                .header(csrfToken.getHeaderName(), csrfToken.getToken())
+                //.header(csrfToken.getHeaderName(), csrfToken.getToken())
                 .body(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
 

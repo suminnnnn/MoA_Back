@@ -7,6 +7,8 @@ import com.example.moa.jwt.JwtTokenUtil;
 import com.example.moa.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +27,16 @@ public class LogInController extends BaseController{
         User user = authService.authenticate(userDto);
         final String token = jwtTokenUtil.generateToken(user);
 
+
         CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
 
+        ResponseCookie cookie = ResponseCookie.from("XSRF-TOKEN", csrfToken.getToken())
+                .httpOnly(true)
+                .path("/")
+                .build();
+
         return ResponseEntity.ok()
-                .header(csrfToken.getHeaderName(), csrfToken.getToken())
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new AuthResponse(token));
     }
 }

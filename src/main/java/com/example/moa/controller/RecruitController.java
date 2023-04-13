@@ -26,9 +26,6 @@ public class RecruitController extends BaseController{
     @Autowired
     private final RecruitService recruitService;
 
-    @Autowired
-    JwtTokenUtil jwtTokenUtil;
-
 
     @GetMapping
     public ResponseEntity<List<RecruitResponseDto>> getAllRecruits() {
@@ -51,6 +48,7 @@ public class RecruitController extends BaseController{
                         .role(Role.ADMIN)
                         .build()
         );
+
         return ResponseEntity.ok().body(RecruitResponseDto.from(savedRecruit));
     }
 
