@@ -28,6 +28,7 @@ public class Ingredient {
     @JoinColumn(name = "recruit_id")
     private Recruit recruit;
 
+    @Column(nullable = false)
     private LocalDate registeredDate;
 
     @Column(nullable = false)

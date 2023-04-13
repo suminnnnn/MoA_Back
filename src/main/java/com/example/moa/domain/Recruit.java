@@ -1,11 +1,9 @@
 package com.example.moa.domain;
 
-import com.example.moa.dto.RecruitModifyDto;
-import com.example.moa.dto.RecruitRequestDto;
+import com.example.moa.dto.recruit.RecruitModifyDto;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,8 @@ public class Recruit {
     private String foodName;
 
     @ElementCollection
-    private List<Ingredient> ingredients;
+    @OneToMany(mappedBy = "id",cascade = CascadeType.ALL)
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     private int maxPeople;
 

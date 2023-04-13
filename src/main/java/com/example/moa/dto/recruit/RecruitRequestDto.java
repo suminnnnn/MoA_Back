@@ -1,10 +1,8 @@
-package com.example.moa.dto;
+package com.example.moa.dto.recruit;
 
 import com.example.moa.domain.Ingredient;
 import com.example.moa.domain.Recruit;
-import com.example.moa.domain.RecruitUser;
 import com.example.moa.domain.User;
-import com.example.moa.service.UserService;
 import lombok.*;
 
 import java.time.LocalDateTime;

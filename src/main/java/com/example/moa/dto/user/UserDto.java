@@ -1,4 +1,4 @@
-package com.example.moa.dto;
+package com.example.moa.dto.user;
 
 import com.example.moa.domain.User;
 import lombok.AllArgsConstructor;

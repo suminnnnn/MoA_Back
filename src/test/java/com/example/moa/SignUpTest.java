@@ -1,8 +1,7 @@
 package com.example.moa;
 
 import com.example.moa.domain.User;
-import com.example.moa.dto.SignUpDto;
-import com.example.moa.service.UserServiceImpl;
+import com.example.moa.dto.user.SignUpDto;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
