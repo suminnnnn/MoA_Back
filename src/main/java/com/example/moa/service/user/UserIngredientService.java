@@ -11,7 +11,9 @@ import java.util.List;
 public interface UserIngredientService {
     String uploadReceiptImage(MultipartFile multipartFile) throws IOException;
     String uploadImage(MultipartFile multipartFile) throws IOException;
-    List<String> getLabelsFromImage(String imageUrl) throws IOException;
+    List<String> getLabelsFromImage(String imgFilePath) throws Exception;
+    List<String> translateWords(List<String> words, String sourceLanguage, String targetLanguage);
+    String translate(String text, String sourceLanguage, String targetLanguage);
     Ingredient registerUser(IngredientRequestDto ingredientDto);
     String getEmailFromToken(HttpServletRequest request);
 }

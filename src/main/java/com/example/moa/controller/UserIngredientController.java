@@ -1,6 +1,8 @@
 package com.example.moa.controller;
 
+import com.example.moa.dto.ingredient.IngredientImageDto;
 import com.example.moa.dto.ingredient.IngredientRequestDto;
+import com.example.moa.dto.ingredient.ReceiptImageDto;
 import com.example.moa.service.user.UserIngredientService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +22,20 @@ public class UserIngredientController {
     @Autowired
     private final UserIngredientService userIngredientService;
 
-
-
-    //1. 재료 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
     @PostMapping("/image")
-    public ResponseEntity<?> ingredientImage(@RequestParam(value = "file",required = false) MultipartFile file) throws IOException {
+    public ResponseEntity<?> ingredientImage(@RequestParam(value = "file",required = false) MultipartFile file){
         if (file == null) {
             return new ResponseEntity<>("재료 파일이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
-        String url =userIngredientService.uploadImage(file);
+        IngredientImageDto ingredientImageDto = new IngredientImageDto();
 
-        List<String> foodLabels = userIngredientService.getLabelsFromImage(url);
+        String url = userIngredientService.uploadImage(file);
+        List<String> result = userIngredientService.translateWords(userIngredientService.getLabelsFromImage(url), "en", "ko");
 
-        return new ResponseEntity<>(foodLabels, HttpStatus.OK);
+        ingredientImageDto.setIngredientImage(url);
+        ingredientImageDto.setResult(result);
+
+        return new ResponseEntity<>(ingredientImageDto, HttpStatus.OK);
     }
 
     //2. 영수증 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
@@ -43,8 +46,11 @@ public class UserIngredientController {
         }
 
         String url = userIngredientService.uploadReceiptImage(file);
+        ReceiptImageDto receiptImageDto = new ReceiptImageDto();
 
-        return new ResponseEntity<>(url, HttpStatus.OK);
+        receiptImageDto.setReceiptImage(url);
+
+        return new ResponseEntity<>(receiptImageDto, HttpStatus.OK);
     }
 
     @PostMapping("/register")
