@@ -2,10 +2,12 @@ package com.example.moa.controller;
 
 import com.example.moa.domain.User;
 import com.example.moa.dto.IngredientDto;
+import com.example.moa.dto.IngredientImageDto;
+import com.example.moa.dto.ReceiptImageDto;
 import com.example.moa.service.IngredientService;
 import com.example.moa.service.UserService;
-import com.example.moa.service.VisionApiService;
-import com.google.cloud.vision.v1.EntityAnnotation;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,40 +22,41 @@ import java.util.List;
 @RequestMapping("/ingredient")
 public class IngredientController {
     @Autowired
-    IngredientService ingredientService;
+    private IngredientService ingredientService;
 
     @Autowired
-    UserService userService;
-
-    private final VisionApiService visionApiService;
-
-    public IngredientController(VisionApiService visionApiService) {
-        this.visionApiService = visionApiService;
-    }
+    private UserService userService;
 
     //1. 재료 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
     @PostMapping("/image")
-    public ResponseEntity<?> ingredientImage(@RequestParam(value = "file",required = false) MultipartFile file) throws IOException {
+    public ResponseEntity<?> ingredientImage(@RequestParam(value = "file",required = false) MultipartFile file) throws Exception {
         if (file == null) {
-            return new ResponseEntity<>("재료 파일이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+            throw new IOException();
         }
+        IngredientImageDto ingredientImageDto = new IngredientImageDto();
+
         String url = ingredientService.uploadImage(file);
+        List<String> result = ingredientService.translateWords(ingredientService.getLabelsFromImage(url), "en", "ko");
 
-        List<String> foodLabels = ingredientService.getLabelsFromImage(url);
+        ingredientImageDto.setIngredientImage(url);
+        ingredientImageDto.setResult(result);
 
-        return new ResponseEntity<>(foodLabels, HttpStatus.OK);
+        return new ResponseEntity<>(ingredientImageDto, HttpStatus.OK);
     }
 
     //2. 영수증 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
     @PostMapping("/receiptimage")
     public ResponseEntity<?> receiptImage(@RequestParam("file") MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            return new ResponseEntity<>("영수증 파일이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
+        if (file == null) {
+            throw new IOException();
         }
 
         String url = ingredientService.uploadReceiptImage(file);
+        ReceiptImageDto receiptImageDto = new ReceiptImageDto();
 
-        return new ResponseEntity<>(url, HttpStatus.OK);
+        receiptImageDto.setReceiptImage(url);
+
+        return new ResponseEntity<>(receiptImageDto, HttpStatus.OK);
     }
 
     @PostMapping("/register")
@@ -63,6 +66,5 @@ public class IngredientController {
 
         return new ResponseEntity<>("재료 등록이 완료되었습니다.", HttpStatus.CREATED); //201
     }
-
 
 }
