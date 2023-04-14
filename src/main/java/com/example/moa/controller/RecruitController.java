@@ -42,14 +42,12 @@ public class RecruitController{
 
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<RecruitResponseDto>  modifyRecruit(HttpServletRequest httpServletRequest, @RequestBody RecruitModifyDto modifyDto){
+    public ResponseEntity<RecruitResponseDto>  modifyRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitModifyDto modifyDto){
+        modifyDto.setRecruitId(id);
         String email = recruitService.getEmailFromToken(httpServletRequest);
         modifyDto.setWriterEmail(email);
 
         Recruit updateRecruit = recruitService.update(modifyDto);
         return ResponseEntity.ok().body(RecruitResponseDto.from(updateRecruit));
     }
-
-
-
 }

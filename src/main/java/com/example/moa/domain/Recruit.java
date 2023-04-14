@@ -4,6 +4,8 @@ import com.example.moa.dto.recruit.RecruitModifyDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +33,11 @@ public class Recruit {
     private int participatePeople;
 
     @Column(name = "recruit_date")
-    private String recruitDate;
+    private LocalDate recruitDate;
     // 모임 날짜
 
     @Column(name = "created_at")
-    private String createdAt;
+    private LocalDate createdAt;
     //작성 날짜
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,14 +53,17 @@ public class Recruit {
     @ElementCollection
     private List<RecruitUser> recruitUsers = new ArrayList<>();
 
+    private List<String> needIngredients = new ArrayList<>();
+
     public void addParticipatePeople(){
         participatePeople++;
     }
     public Recruit update(RecruitModifyDto modifyDto) {
+
         this.foodName = modifyDto.getFoodName();
-        this.ingredients = modifyDto.getIngredients();
+        this.needIngredients = modifyDto.getNeedIngredients();
         this.maxPeople = modifyDto.getMaxPeople();
-        this.recruitDate = modifyDto.getRecruitDate();
+        this.recruitDate = LocalDate.parse(modifyDto.getRecruitDate());
         this.title = modifyDto.getTitle();
         this.content = modifyDto.getContent();
 

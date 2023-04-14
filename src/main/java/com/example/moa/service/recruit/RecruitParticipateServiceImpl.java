@@ -2,9 +2,9 @@ package com.example.moa.service.recruit;
 
 import com.example.moa.domain.*;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
-import com.example.moa.dto.recruit.RecruitResponseDto;
 import com.example.moa.exception.DuplicateEmailException;
-import com.example.moa.repository.IngredientRepository;
+import com.example.moa.exception.NotFindRecruitException;
+import com.example.moa.exception.UserNoIngredientException;
 import com.example.moa.repository.RecruitRepository;
 import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
@@ -66,7 +66,8 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
     @Override
     public boolean isMaxPeople(Long id){
-        Recruit recruit = recruitRepository.findByRecruitId(id);
+        Recruit recruit = recruitRepository.findByRecruitId(id)
+                .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));;
         return recruit.getMaxPeople() > recruit.getParticipatePeople() ? true : false ;
     }
     @Override
@@ -77,7 +78,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     @Override
     public List<IngredientResponseDto> getIngredientsByEmail(String email) {
         User user= userRepository.findById(email)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Ingredient id"));
+                .orElseThrow(() -> new UserNoIngredientException("no have ingredient"));
         return user.getIngredients()
                 .stream()
                 .map(IngredientResponseDto::from)

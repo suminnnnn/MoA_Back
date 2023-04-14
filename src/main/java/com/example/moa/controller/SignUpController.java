@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/signup")
+@RequestMapping("/user/signup")
 @RequiredArgsConstructor
 public class SignUpController {
 
@@ -35,5 +35,4 @@ public class SignUpController {
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
-
 }

@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class RecruitParticipateController {
     @Autowired
     private final RecruitParticipateService participateService;
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<?> possibleParticipate(@PathVariable Long id){
         if(!participateService.isMaxPeople(id)){
             return ResponseEntity.badRequest().body("인원 초과입니다.");
@@ -42,8 +39,8 @@ public class RecruitParticipateController {
         return new ResponseEntity<>("참여 신청 완료 되었습니다.", HttpStatus.CREATED); //201
     }
 
-    @PostMapping("/ingredients")
-    public ResponseEntity<List<IngredientResponseDto>> participateIngredient(HttpServletRequest httpServletRequest){
+    @GetMapping("/ingredients")
+    public ResponseEntity<List<IngredientResponseDto>> participateIngredient(@PathVariable Long id, HttpServletRequest httpServletRequest){
         String email = participateService.getEmailFromToken(httpServletRequest);
         List<IngredientResponseDto> ingredients = participateService.getIngredientsByEmail(email);
         return ResponseEntity.ok().body(ingredients);

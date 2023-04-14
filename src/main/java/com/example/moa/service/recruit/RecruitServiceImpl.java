@@ -7,6 +7,7 @@ import com.example.moa.domain.User;
 import com.example.moa.dto.recruit.RecruitModifyDto;
 import com.example.moa.dto.recruit.RecruitRequestDto;
 import com.example.moa.dto.recruit.RecruitResponseDto;
+import com.example.moa.exception.NotFindRecruitException;
 import com.example.moa.repository.RecruitRepository;
 import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,11 +41,8 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public Recruit saveRecruit(RecruitRequestDto requestDto) {
-
         User writer = userRepository.findByEmail(requestDto.getWriterEmail())
-                .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + requestDto.getWriterEmail()));
-
-
+                .orElse(null);
         return recruitRepository.save(requestDto.toEntity(writer));
     }
 
@@ -60,7 +59,10 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public Recruit update(RecruitModifyDto recruitModifyDto){
-        Recruit recruit = recruitRepository.findByRecruitId(recruitModifyDto.getRecruitId());
+        Long id = recruitModifyDto.getRecruitId();
+        Recruit recruit = recruitRepository.findByRecruitId(id)
+                .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));
+
         return recruit.update(recruitModifyDto);
     }
 

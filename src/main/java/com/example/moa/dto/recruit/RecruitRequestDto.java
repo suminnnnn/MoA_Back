@@ -5,6 +5,7 @@ import com.example.moa.domain.Recruit;
 import com.example.moa.domain.User;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -18,7 +19,7 @@ public class RecruitRequestDto {
 
     private String foodName;
 
-    private List<Ingredient> ingredients;
+    private List<String> needIngredients;
 
     private int maxPeople;
 
@@ -32,18 +33,15 @@ public class RecruitRequestDto {
 
     public Recruit toEntity(User writer) {
 
-        LocalDateTime localDateTime = LocalDateTime.now();
-        String createdAt = localDateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
-
         return Recruit.builder()
                 .foodName(foodName)
-                .ingredients(ingredients)
+                .needIngredients(needIngredients)
                 .maxPeople(maxPeople)
-                .recruitDate(recruitDate)
+                .recruitDate(LocalDate.parse(recruitDate))
                 .writer(writer)
                 .title(title)
                 .content(content)
-                .createdAt(createdAt)
+                .createdAt(LocalDate.now())
                 .build();
     }
 }

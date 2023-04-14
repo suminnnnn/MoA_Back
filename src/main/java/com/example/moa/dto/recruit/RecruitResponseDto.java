@@ -5,6 +5,7 @@ import com.example.moa.domain.Recruit;
 import com.example.moa.domain.User;
 import lombok.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -36,14 +37,15 @@ public class RecruitResponseDto {
     public static RecruitResponseDto from(Recruit recruit){
 
         User writer = recruit.getWriter();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         return RecruitResponseDto.builder()
                 .recruitId(recruit.getRecruitId())
                 .foodName(recruit.getFoodName())
                 .ingredients(recruit.getIngredients())
                 .maxPeople(recruit.getMaxPeople())
-                .recruitDate(recruit.getRecruitDate())
-                .createdAt(recruit.getCreatedAt())
+                .recruitDate(recruit.getRecruitDate().format(formatter))
+                .createdAt(recruit.getCreatedAt().format(formatter))
                 .writerEmail(writer.getEmail())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
