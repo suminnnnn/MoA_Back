@@ -45,5 +45,6 @@ public class JwtTokenUtil {
                 .signWith(key, SignatureAlgorithm.HS256)  // 사용할 암호화 알고리즘과
                 // signature 에 들어갈 secret값 세팅
                 .compact();
+        return jwt;
     }
 }
