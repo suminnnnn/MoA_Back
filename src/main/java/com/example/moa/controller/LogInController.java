@@ -22,12 +22,6 @@ public class LogInController{
     @Autowired
     private final LoginService loginService;
 
-    @PostMapping("/connect")
-    public ResponseEntity<?> connect(@RequestBody UserDto userDto){
-
-        return ResponseEntity.ok(userDto);
-    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(HttpServletRequest request, @RequestBody UserDto userDto) {
         User user = loginService.authenticate(userDto);

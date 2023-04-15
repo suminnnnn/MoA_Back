@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -102,6 +103,7 @@ public class UserIngredientServiceImpl implements UserIngredientService {
         }
         return result;
     }
+
     @Override
     public List<String> translateWords(List<String> words, String sourceLanguage, String targetLanguage) {
         List<String> translations = new ArrayList<>();
@@ -111,12 +113,12 @@ public class UserIngredientServiceImpl implements UserIngredientService {
         }
         return translations;
     }
+
     @Override
     public String translate(String text, String sourceLanguage, String targetLanguage) {
         Translation translation = translate.translate(text, Translate.TranslateOption.sourceLanguage(sourceLanguage), Translate.TranslateOption.targetLanguage(targetLanguage));
         return translation.getTranslatedText();
     }
-
 
     @Override
     public String getEmailFromToken(HttpServletRequest request){
@@ -127,7 +129,7 @@ public class UserIngredientServiceImpl implements UserIngredientService {
     public Ingredient registerUser(IngredientRequestDto ingredientDto) {
         User user = userRepository.findByEmail(ingredientDto.getUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + ingredientDto.getUserEmail()));
-
+        
         Ingredient savedIngredient = ingredientDto.toEntity(user);
 
         return ingredientRepository.save(savedIngredient);

@@ -23,7 +23,7 @@ public class UserIngredientController {
     private final UserIngredientService userIngredientService;
 
     @PostMapping("/image")
-    public ResponseEntity<?> ingredientImage(@RequestParam(value = "file",required = false) MultipartFile file){
+    public ResponseEntity<?> ingredientImage(@RequestParam(value = "file",required = false) MultipartFile file) throws Exception {
         if (file == null) {
             return new ResponseEntity<>("재료 파일이 존재하지 않습니다.", HttpStatus.BAD_REQUEST);
         }

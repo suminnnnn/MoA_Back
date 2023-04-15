@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NotFindRecruitException.class)
+    @ExceptionHandler(UserNoIngredientException.class)
     public ResponseEntity<Object> handleUserNoIngredientException (UserNoIngredientException ex){
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("errorCode", "USER_NO_INGREDIENT");
@@ -69,14 +69,6 @@ public class GlobalExceptionHandler {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("errorCode", "INVALID_PASSWORD");
         errorResponse.put("errorMessage", "비밀번호가 일치하지 않습니다.");
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<Object> handlerFileUploadException(IOException e){
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("errorCode", "NOT_FOUND_FILE");
-        errorResponse.put("errorMessage", "파일 업로드 오류가 발생했습니다.");
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

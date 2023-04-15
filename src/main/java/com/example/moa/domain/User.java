@@ -29,16 +29,13 @@ public class User {
     @Column(length = 15, nullable = false)
     private String name;
 
-    @Column(name="birth_date")
+    @Column(name = "birth")
     private String birth;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Ingredient> ingredients = new ArrayList<>();
-
-    @Column
+    @Column(name = "matching_count")
     private int matchingCount;
 
-    @Column
+    @Column(name = "favorite_friends")
     private String favoriteFriends;
 
     @ElementCollection
