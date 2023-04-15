@@ -24,6 +24,11 @@ public class Ingredient {
     @JoinColumn(name = "user_email")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "recruit_id")
+    private Recruit recruit;
+
+    @Column(nullable = false)
     private LocalDate registeredDate;
 
     @Column(nullable = false)

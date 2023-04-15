@@ -1,11 +1,14 @@
 package com.example.moa.controller;
 
 import com.example.moa.domain.User;
-import com.example.moa.dto.AuthResponse;
-import com.example.moa.dto.SignUpDto;
-import com.example.moa.dto.UserDto;
-import com.example.moa.service.AuthService;
+import com.example.moa.jwt.AuthResponse;
+import com.example.moa.dto.user.UserDto;
+import com.example.moa.service.user.LoginService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class LogInController {
+@RequiredArgsConstructor
+public class LogInController{
     @Autowired
-    private AuthService authService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final LoginService loginService;
 
     @PostMapping("/connect")
     public ResponseEntity<?> connect(@RequestBody UserDto userDto){
@@ -28,9 +29,14 @@ public class LogInController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDto userDto) {
-        User user = authService.authenticate(userDto);
-        final String token = jwtTokenUtil.generateToken(user);
-        return ResponseEntity.ok(new AuthResponse(token));
+    public ResponseEntity<?> login(HttpServletRequest request, @RequestBody UserDto userDto) {
+        User user = loginService.authenticate(userDto);
+        final String token = loginService.generateJwt(user);
+
+        ResponseCookie cookie = loginService.makeCsrf(request);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(new AuthResponse(token));
     }
 }
