@@ -27,10 +27,10 @@ public class LogInController{
         User user = loginService.authenticate(userDto);
         final String token = loginService.generateJwt(user);
 
-        ResponseCookie cookie = loginService.makeCsrf(request);
+//        ResponseCookie cookie = loginService.makeCsrf(request);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+//                .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new AuthResponse(token));
     }
 }
