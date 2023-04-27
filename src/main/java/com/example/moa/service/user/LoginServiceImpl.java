@@ -4,12 +4,10 @@ import com.example.moa.domain.User;
 import com.example.moa.dto.user.SignUpDto;
 import com.example.moa.dto.user.UserDto;
 import com.example.moa.exception.DuplicateEmailException;
+import com.example.moa.jwt.JwtTokenUtil;
 import com.example.moa.repository.UserRepository;
-import com.example.moa.service.base.BaseService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,8 +22,9 @@ public class LoginServiceImpl implements LoginService{
 
     @Autowired
     private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private final BaseService baseService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     public User join (SignUpDto signUpDto) {
@@ -52,14 +51,10 @@ public class LoginServiceImpl implements LoginService{
 
         return user;
     }
-    @Override
-    public ResponseCookie makeCsrf(HttpServletRequest request){
-        return baseService.csrfCookie(request);
-    }
 
     @Override
     public String generateJwt(User user){
-        return baseService.generateJwt(user);
+        return jwtTokenUtil.generateToken(user);
     }
 
 

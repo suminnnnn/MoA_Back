@@ -11,16 +11,12 @@ import com.example.moa.exception.NotFindRecruitException;
 import com.example.moa.repository.RecruitRepository;
 import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
-import com.example.moa.service.base.BaseService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,9 +31,6 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Autowired
     private final UserRepository userRepository;
-
-    @Autowired
-    private final BaseService baseService;
 
     @Override
     public Recruit saveRecruit(RecruitRequestDto requestDto) {
@@ -67,6 +60,13 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public void delete(Long id){
+        Recruit recruit = recruitRepository.findByRecruitId(id)
+                .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));
+        recruitRepository.delete(recruit);
+    }
+
+    @Override
     public List<RecruitResponseDto> findAllDesc() {
         return recruitRepository.findAll()
                 .stream()
@@ -74,13 +74,5 @@ public class RecruitServiceImpl implements RecruitService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Optional<Recruit> getRecruitById(Long id) {
-        return recruitRepository.findById(id);
-    }
-    @Override
-    public String getEmailFromToken(HttpServletRequest request){
-        return baseService.getEmailFromToken(request);
-    }
 }
 

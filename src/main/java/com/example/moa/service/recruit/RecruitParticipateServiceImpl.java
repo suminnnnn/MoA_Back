@@ -8,8 +8,6 @@ import com.example.moa.exception.UserNoIngredientException;
 import com.example.moa.repository.RecruitRepository;
 import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
-import com.example.moa.service.base.BaseService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,6 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     private final UserRepository userRepository;
     @Autowired
     private final RecruitUserRepository recruitUserRepository;
-    @Autowired
-    private final BaseService baseService;
 
     @Override
     public RecruitUser saveRecruitUser(Long id, String email, Role role) {
@@ -69,10 +65,6 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
         Recruit recruit = recruitRepository.findByRecruitId(id)
                 .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));;
         return recruit.getMaxPeople() > recruit.getParticipatePeople() ? true : false ;
-    }
-    @Override
-    public String getEmailFromToken(HttpServletRequest request){
-        return baseService.getEmailFromToken(request);
     }
 
     @Override

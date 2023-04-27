@@ -12,6 +12,5 @@ public interface RecruitParticipateService {
     RecruitUser saveRecruitUser(Long id, String email, Role role);
     void participationDuplicate(Long id, String email);
     boolean isMaxPeople(Long id);
-    String getEmailFromToken(HttpServletRequest request);
     List<IngredientResponseDto> getIngredientsByEmail(String email);
 }

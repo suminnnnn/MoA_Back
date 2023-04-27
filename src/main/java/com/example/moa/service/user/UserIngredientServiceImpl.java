@@ -5,12 +5,10 @@ import com.example.moa.domain.User;
 import com.example.moa.dto.ingredient.IngredientRequestDto;
 import com.example.moa.repository.IngredientRepository;
 import com.example.moa.repository.UserRepository;
-import com.example.moa.service.base.BaseService;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.Translation;
 import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -37,8 +34,6 @@ public class UserIngredientServiceImpl implements UserIngredientService {
     @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
-    private final BaseService baseService;
 
     @Autowired
     private Translate translate;
@@ -118,11 +113,6 @@ public class UserIngredientServiceImpl implements UserIngredientService {
     public String translate(String text, String sourceLanguage, String targetLanguage) {
         Translation translation = translate.translate(text, Translate.TranslateOption.sourceLanguage(sourceLanguage), Translate.TranslateOption.targetLanguage(targetLanguage));
         return translation.getTranslatedText();
-    }
-
-    @Override
-    public String getEmailFromToken(HttpServletRequest request){
-        return baseService.getEmailFromToken(request);
     }
 
     @Override

@@ -21,7 +21,6 @@ public class RecruitController{
     @Autowired
     private final RecruitService recruitService;
 
-
     @GetMapping
     public ResponseEntity<List<RecruitResponseDto>> getAllRecruits() {
         List<RecruitResponseDto> recruits = recruitService.findAllDesc();
@@ -30,7 +29,8 @@ public class RecruitController{
 
     @PostMapping("/create")
     public ResponseEntity<RecruitResponseDto> createRecruit(HttpServletRequest httpServletRequest, @RequestBody RecruitRequestDto requestDto) {
-        String email = recruitService.getEmailFromToken(httpServletRequest);
+        String email = (String) httpServletRequest.getAttribute("email");
+        System.out.println(email);
         requestDto.setWriterEmail(email);
 
         Recruit savedRecruit = recruitService.saveRecruit(requestDto);
@@ -44,10 +44,17 @@ public class RecruitController{
     @PostMapping("/modify/{id}")
     public ResponseEntity<RecruitResponseDto>  modifyRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitModifyDto modifyDto){
         modifyDto.setRecruitId(id);
-        String email = recruitService.getEmailFromToken(httpServletRequest);
+        String email = (String) httpServletRequest.getAttribute("email");
         modifyDto.setWriterEmail(email);
 
         Recruit updateRecruit = recruitService.update(modifyDto);
         return ResponseEntity.ok().body(RecruitResponseDto.from(updateRecruit));
+    }
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<?> deleteRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id){
+        recruitService.delete(id);
+        return ResponseEntity.ok()
+                .body(new ApiResponse("삭제 되었습니다.", "200"));
     }
 }

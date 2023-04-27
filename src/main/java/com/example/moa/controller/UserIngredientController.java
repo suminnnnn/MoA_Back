@@ -55,7 +55,7 @@ public class UserIngredientController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerInUser(HttpServletRequest httpServletRequest, @RequestBody IngredientRequestDto ingredientDto){
-        String email = userIngredientService.getEmailFromToken(httpServletRequest);
+        String email = (String) httpServletRequest.getAttribute("email");
         ingredientDto.setUserEmail(email);
         userIngredientService.registerUser(ingredientDto);
 

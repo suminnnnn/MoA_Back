@@ -15,7 +15,7 @@ public interface RecruitService {
     RecruitUser saveRecruitAdmin(Recruit savedRecruit);
     Recruit update(RecruitModifyDto recruitModifyDto);
     List<RecruitResponseDto> findAllDesc();
-    Optional<Recruit> getRecruitById(Long id);
 
-    String getEmailFromToken(HttpServletRequest request);
+    void delete(Long id);
+
 }

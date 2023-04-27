@@ -30,7 +30,7 @@ public class RecruitParticipateController {
 
     @PostMapping("/enter")
     public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id){
-        String email = participateService.getEmailFromToken(httpServletRequest);
+        String email = (String) httpServletRequest.getAttribute("email");
         if(!participateService.isMaxPeople(id)){
             return ResponseEntity.badRequest().body("인원 초과입니다.");
         }
@@ -41,7 +41,7 @@ public class RecruitParticipateController {
 
     @GetMapping("/ingredients")
     public ResponseEntity<List<IngredientResponseDto>> participateIngredient(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        String email = participateService.getEmailFromToken(httpServletRequest);
+        String email = (String) httpServletRequest.getAttribute("email");
         List<IngredientResponseDto> ingredients = participateService.getIngredientsByEmail(email);
         return ResponseEntity.ok().body(ingredients);
     }
