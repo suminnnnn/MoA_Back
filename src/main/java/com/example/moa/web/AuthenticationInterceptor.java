@@ -4,6 +4,7 @@ import com.example.moa.jwt.JwtTokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,14 +13,19 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
+    private static final String AUTHORIZATION_HEADER = "x-access-token";
     @Autowired
     private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("Authorization");
-        // 토큰에서 email 주소 추출
-        String email = extractEmailFromToken(token);
+        String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER);
+
+        JSONObject jsonObj = new JSONObject(authorizationHeader);
+        String requestJwt = jsonObj.getString("jwtToken");
+
+        String email = extractEmailFromToken(requestJwt);
+
         if (email == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return false;

@@ -25,6 +25,8 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	implementation 'org.json:json:20210307'
+
 	implementation 'com.google.cloud:google-cloud-vision:3.12.0'
 	implementation 'com.google.cloud:google-cloud-translate:2.14.0'
 

@@ -27,6 +27,7 @@ public class RecruitController{
         return ResponseEntity.ok().body(recruits);
     }
 
+
     @PostMapping("/create")
     public ResponseEntity<RecruitResponseDto> createRecruit(HttpServletRequest httpServletRequest, @RequestBody RecruitRequestDto requestDto) {
         String email = (String) httpServletRequest.getAttribute("email");
