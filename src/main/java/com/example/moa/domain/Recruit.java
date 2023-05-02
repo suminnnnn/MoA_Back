@@ -25,7 +25,6 @@ public class Recruit {
     private String foodName;
 
     @ElementCollection
-    @OneToMany(mappedBy = "id",cascade = CascadeType.ALL)
     private List<Ingredient> ingredients = new ArrayList<>();
 
     private int maxPeople;
@@ -40,6 +39,8 @@ public class Recruit {
     private LocalDate createdAt;
     //작성 날짜
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_email")
     private User writer;
 
     private String title;
@@ -51,11 +52,12 @@ public class Recruit {
     @ElementCollection
     private List<RecruitUser> recruitUsers = new ArrayList<>();
 
+
     private List<String> needIngredients = new ArrayList<>();
 
-    @OneToOne
-    @Column(name = "chat_room_id")
-    private ChatRoom chatRoom;
+//    @OneToOne
+//    @Column(name = "chat_room_id")
+//    private ChatRoom chatRoom;
 
 
 

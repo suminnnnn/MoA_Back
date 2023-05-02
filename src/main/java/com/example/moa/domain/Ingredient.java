@@ -20,13 +20,13 @@ public class Ingredient {
     @Column(nullable = false)
     private String name;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_email")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_email")
+    private User user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "recruit_id")
-//    private Recruit recruit;
+    @ManyToOne
+    @JoinColumn(name = "recruit_id")
+    private Recruit recruit;
 
     @Column(nullable = false)
     private LocalDate registeredDate;

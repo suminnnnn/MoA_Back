@@ -5,7 +5,6 @@ import com.example.moa.dto.recruit.RecruitModifyDto;
 import com.example.moa.dto.recruit.RecruitRequestDto;
 import com.example.moa.dto.recruit.RecruitResponseDto;
 import com.example.moa.exception.NotFindRecruitException;
-import com.example.moa.repository.ChatRoomRepository;
 import com.example.moa.repository.RecruitRepository;
 import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
@@ -25,8 +24,8 @@ public class RecruitServiceImpl implements RecruitService {
     @Autowired
     private final RecruitRepository recruitRepository;
 
-    @Autowired
-    private final ChatRoomRepository chatRoomRepository;
+//    @Autowired
+//    private final ChatRoomRepository chatRoomRepository;
 
     @Autowired
     private final RecruitUserRepository recruitUserRepository;
@@ -40,11 +39,11 @@ public class RecruitServiceImpl implements RecruitService {
                 .orElse(null);
 
         Recruit recruit = requestDto.toEntity(writer);
-        chatRoomRepository.save(
-                ChatRoom.builder()
-                    .recruit(Optional.ofNullable(recruit))
-                    .build()
-        );
+//        chatRoomRepository.save(
+//                ChatRoom.builder()
+//                    .recruit(Optional.ofNullable(recruit))
+//                    .build()
+//        );
         return recruitRepository.save(recruit);
     }
 
