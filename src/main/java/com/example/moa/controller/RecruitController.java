@@ -31,7 +31,6 @@ public class RecruitController{
     @PostMapping("/create")
     public ResponseEntity<RecruitResponseDto> createRecruit(HttpServletRequest httpServletRequest, @RequestBody RecruitRequestDto requestDto) {
         String email = (String) httpServletRequest.getAttribute("email");
-        System.out.println(email);
         requestDto.setWriterEmail(email);
 
         Recruit savedRecruit = recruitService.saveRecruit(requestDto);

@@ -37,7 +37,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private String extractEmailFromToken(String token) {
         // 토큰에서 email 주소 추출하는 로직 구현
-        return jwtTokenUtil.getEmailFromToken(token.substring(7));
+        return jwtTokenUtil.getEmailFromToken(token);
     }
 }
 

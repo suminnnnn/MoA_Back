@@ -34,7 +34,6 @@ public class JwtTokenUtil {
 
         claims.put("key", "value");
         claims.put("email", user.getEmail());
-        claims.put("username", user.getName());
 
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
