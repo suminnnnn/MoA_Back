@@ -71,6 +71,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     public List<IngredientResponseDto> getIngredientsByEmail(String email) {
         User user= userRepository.findById(email)
                 .orElseThrow(() -> new UserNoIngredientException("no have ingredient"));
+
         return user.getIngredients()
                 .stream()
                 .map(IngredientResponseDto::from)

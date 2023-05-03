@@ -4,7 +4,9 @@ import com.example.moa.domain.Ingredient;
 import com.example.moa.domain.User;
 import lombok.*;
 
+import javax.annotation.Nullable;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Builder
 @Getter
@@ -13,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class IngredientRequestDto {
 
-    private String userEmail;
+    private Optional<String> userEmail;
     private String name;
     private String purchasedDate;
     private String expirationDate;

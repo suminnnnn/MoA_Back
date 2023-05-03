@@ -42,7 +42,9 @@ public class RecruitParticipateController {
     @GetMapping("/ingredients")
     public ResponseEntity<List<IngredientResponseDto>> participateIngredient(@PathVariable Long id, HttpServletRequest httpServletRequest){
         String email = (String) httpServletRequest.getAttribute("email");
+
         List<IngredientResponseDto> ingredients = participateService.getIngredientsByEmail(email);
+
         return ResponseEntity.ok().body(ingredients);
     }
 }

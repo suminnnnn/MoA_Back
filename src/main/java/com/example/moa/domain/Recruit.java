@@ -24,6 +24,7 @@ public class Recruit {
 
     private String foodName;
 
+    @Column(name = "recruit_ingredients")
     @ElementCollection
     private List<Ingredient> ingredients = new ArrayList<>();
 
@@ -53,6 +54,7 @@ public class Recruit {
     private List<RecruitUser> recruitUsers = new ArrayList<>();
 
 
+    @Column(name = "recruit_need_ingredients")
     private List<String> needIngredients = new ArrayList<>();
 
 //    @OneToOne
