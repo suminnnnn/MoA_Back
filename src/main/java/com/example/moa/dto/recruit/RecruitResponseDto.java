@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RecruitResponseDto {
 
-    private Long recruitId;
+    private Long id;
 
     private String foodName;
 
@@ -40,7 +40,7 @@ public class RecruitResponseDto {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         return RecruitResponseDto.builder()
-                .recruitId(recruit.getRecruitId())
+                .id(recruit.getId())
                 .foodName(recruit.getFoodName())
                 .ingredients(recruit.getIngredients())
                 .maxPeople(recruit.getMaxPeople())

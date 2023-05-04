@@ -5,6 +5,7 @@ import com.example.moa.dto.ingredient.IngredientResponseDto;
 import com.example.moa.exception.DuplicateEmailException;
 import com.example.moa.exception.NotFindRecruitException;
 import com.example.moa.exception.UserNoIngredientException;
+import com.example.moa.repository.IngredientRepository;
 import com.example.moa.repository.RecruitRepository;
 import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
@@ -28,6 +29,9 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     @Autowired
     private final RecruitUserRepository recruitUserRepository;
 
+    @Autowired
+    private final IngredientRepository ingredientRepository;
+
     @Override
     public RecruitUser saveRecruitUser(Long id, String email, Role role) {
         Recruit recruit = recruitRepository.findById(id)
@@ -36,14 +40,14 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user email"));
 
+        RecruitUser savedRecruitUser= RecruitUser.builder()
+                .recruit(recruit)
+                .user(user)
+                .role(role)
+                .build();
+
         recruit.addParticipatePeople();
-        return recruitUserRepository.save(
-                RecruitUser.builder()
-                        .recruit(recruit)
-                        .user(user)
-                        .role(role)
-                        .build()
-        );
+        return recruitUserRepository.save(savedRecruitUser);
     }
     @Override
     public void participationDuplicate(Long id, String email) {
@@ -62,16 +66,21 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
     @Override
     public boolean isMaxPeople(Long id){
-        Recruit recruit = recruitRepository.findByRecruitId(id)
+        Recruit recruit = recruitRepository.findById(id)
                 .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));;
         return recruit.getMaxPeople() > recruit.getParticipatePeople() ? true : false ;
     }
 
     @Override
     public List<IngredientResponseDto> getIngredientsByEmail(String email) {
-        User user= userRepository.findById(email)
+        User user= userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNoIngredientException("no have ingredient"));
 
+        System.out.println("user : "+ user.getIngredients().size());
+
+        for(Ingredient i : user.getIngredients()){
+            System.out.println(i.getName());
+        }
         return user.getIngredients()
                 .stream()
                 .map(IngredientResponseDto::from)

@@ -38,12 +38,10 @@ public class User {
     @Column(name = "favorite_friends")
     private String favoriteFriends;
 
-    @ElementCollection
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<Recruit> recruits = new ArrayList<>();
 
-    @ElementCollection
-    @OneToMany(mappedBy = "id",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 
 }

@@ -51,7 +51,7 @@ public class RecruitServiceImpl implements RecruitService {
     public RecruitUser saveRecruitAdmin(Recruit savedRecruit) {
         return recruitUserRepository.save(
                 RecruitUser.builder()
-                        .id(savedRecruit.getRecruitId())
+                        .id(savedRecruit.getId())
                         .recruit(savedRecruit)
                         .user(savedRecruit.getWriter())
                         .role(Role.ADMIN)
@@ -61,7 +61,7 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public Recruit update(RecruitModifyDto recruitModifyDto){
         Long id = recruitModifyDto.getRecruitId();
-        Recruit recruit = recruitRepository.findByRecruitId(id)
+        Recruit recruit = recruitRepository.findById(id)
                 .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));
 
         return recruit.update(recruitModifyDto);
@@ -69,7 +69,7 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Override
     public void delete(Long id){
-        Recruit recruit = recruitRepository.findByRecruitId(id)
+        Recruit recruit = recruitRepository.findById(id)
                 .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));
         recruitRepository.delete(recruit);
     }

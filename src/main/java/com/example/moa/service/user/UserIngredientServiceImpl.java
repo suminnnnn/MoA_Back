@@ -121,8 +121,11 @@ public class UserIngredientServiceImpl implements UserIngredientService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + ingredientDto.getUserEmail()));
 
         Ingredient savedIngredient = ingredientDto.toEntity(user);
+        user.getIngredients().add(savedIngredient);
 
-        return ingredientRepository.save(savedIngredient);
+        userRepository.save(user);
+
+        return savedIngredient;
     }
 
 }

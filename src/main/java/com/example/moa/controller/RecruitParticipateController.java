@@ -1,5 +1,6 @@
 package com.example.moa.controller;
 
+import com.example.moa.domain.Ingredient;
 import com.example.moa.domain.Role;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
 import com.example.moa.service.recruit.RecruitParticipateService;
@@ -28,8 +29,8 @@ public class RecruitParticipateController {
                 .body(new ApiResponse("참여 가능합니다.", "200"));
     }
 
-    @PostMapping("/enter")
-    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id){
+    @PostMapping("/register")
+    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody List<Long> ingredientsId){
         String email = (String) httpServletRequest.getAttribute("email");
         if(!participateService.isMaxPeople(id)){
             return ResponseEntity.badRequest().body("인원 초과입니다.");

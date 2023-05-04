@@ -19,7 +19,7 @@ public class RecruitUser {
     @JoinColumn(name = "recruit_id")
     private Recruit recruit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

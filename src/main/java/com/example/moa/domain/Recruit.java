@@ -20,12 +20,11 @@ public class Recruit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recruitId;
+    private Long id;
 
     private String foodName;
 
-    @Column(name = "recruit_ingredients")
-    @ElementCollection
+    @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients = new ArrayList<>();
 
     private int maxPeople;
@@ -48,24 +47,18 @@ public class Recruit {
 
     private String content;
 
-    @Column(name = "recruit_users")
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
-    @ElementCollection
     private List<RecruitUser> recruitUsers = new ArrayList<>();
 
 
-    @Column(name = "recruit_need_ingredients")
+    @ElementCollection
     private List<String> needIngredients = new ArrayList<>();
-
-//    @OneToOne
-//    @Column(name = "chat_room_id")
-//    private ChatRoom chatRoom;
-
 
 
     public void addParticipatePeople(){
         participatePeople++;
     }
+
     public Recruit update(RecruitModifyDto modifyDto) {
 
         this.foodName = modifyDto.getFoodName();
