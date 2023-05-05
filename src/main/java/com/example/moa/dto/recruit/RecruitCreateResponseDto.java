@@ -12,13 +12,13 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class RecruitResponseDto {
+public class RecruitCreateResponseDto {
 
     private Long id;
 
     private String foodName;
 
-    private List<Ingredient> ingredients;
+    private List<String> needIngredients;
 
     private int maxPeople;
 
@@ -34,15 +34,15 @@ public class RecruitResponseDto {
 
     private String content;
 
-    public static RecruitResponseDto from(Recruit recruit){
+    public static RecruitCreateResponseDto from(Recruit recruit){
 
         User writer = recruit.getWriter();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        return RecruitResponseDto.builder()
+        return RecruitCreateResponseDto.builder()
                 .id(recruit.getId())
                 .foodName(recruit.getFoodName())
-                .ingredients(recruit.getIngredients())
+                .needIngredients(recruit.getNeedIngredients())
                 .maxPeople(recruit.getMaxPeople())
                 .recruitDate(recruit.getRecruitDate().format(formatter))
                 .createdAt(recruit.getCreatedAt().format(formatter))

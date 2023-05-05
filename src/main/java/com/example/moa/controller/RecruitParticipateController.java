@@ -1,8 +1,7 @@
 package com.example.moa.controller;
 
-import com.example.moa.domain.Ingredient;
-import com.example.moa.domain.Role;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
+import com.example.moa.dto.recruit.RecruitUserDto;
 import com.example.moa.service.recruit.RecruitParticipateService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +29,16 @@ public class RecruitParticipateController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody List<Long> ingredientsId){
-        String email = (String) httpServletRequest.getAttribute("email");
+    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitUserDto recruitUserDto){
         if(!participateService.isMaxPeople(id)){
             return ResponseEntity.badRequest().body("인원 초과입니다.");
         }
-        participateService.participationDuplicate(id,email);
-        participateService.saveRecruitUser(id,email, Role.USER);
+        String email = (String) httpServletRequest.getAttribute("email");
+
+        recruitUserDto.setRecruitId(id);
+        recruitUserDto.setUserEmail(email);
+
+        participateService.saveRecruitUser(recruitUserDto);
         return new ResponseEntity<>("참여 신청 완료 되었습니다.", HttpStatus.CREATED); //201
     }
 

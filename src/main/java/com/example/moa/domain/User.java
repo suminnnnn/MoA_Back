@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
     @Id
     @Column(length = 50, nullable = false)
     private String email;
@@ -39,9 +40,15 @@ public class User {
     private String favoriteFriends;
 
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
+    private List<Recruit> MyRecruits = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "recruit_participate",
+            joinColumns = @JoinColumn(name = "user_email"),
+            inverseJoinColumns = @JoinColumn(name = "recruit_id"))
     private List<Recruit> recruits = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Ingredient> ingredients;
+    private List<Ingredient> ingredients =new ArrayList<>();
 
 }

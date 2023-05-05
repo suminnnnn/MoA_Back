@@ -47,11 +47,14 @@ public class Recruit {
 
     private String content;
 
+    @ManyToMany(mappedBy = "recruits", cascade = CascadeType.ALL)
+    private List<User> users = new ArrayList<>();
+    //승인된 참가자
+
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
     private List<RecruitUser> recruitUsers = new ArrayList<>();
+    //대기열
 
-
-    @ElementCollection
     private List<String> needIngredients = new ArrayList<>();
 
 

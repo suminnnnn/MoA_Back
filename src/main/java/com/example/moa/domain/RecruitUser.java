@@ -3,6 +3,8 @@ package com.example.moa.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "recruit_user")
 @Getter
@@ -20,10 +22,10 @@ public class RecruitUser {
     private Recruit recruit;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_email")
     private User user;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = " ingredient_id")
+    private List<Ingredient> ingredients;
 }

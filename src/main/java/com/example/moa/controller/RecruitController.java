@@ -2,8 +2,8 @@ package com.example.moa.controller;
 
 import com.example.moa.domain.Recruit;
 import com.example.moa.dto.recruit.RecruitModifyDto;
-import com.example.moa.dto.recruit.RecruitRequestDto;
-import com.example.moa.dto.recruit.RecruitResponseDto;
+import com.example.moa.dto.recruit.RecruitCreateRequestDto;
+import com.example.moa.dto.recruit.RecruitCreateResponseDto;
 import com.example.moa.service.recruit.RecruitService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,33 +22,31 @@ public class RecruitController{
     private final RecruitService recruitService;
 
     @GetMapping
-    public ResponseEntity<List<RecruitResponseDto>> getAllRecruits() {
-        List<RecruitResponseDto> recruits = recruitService.findAllDesc();
+    public ResponseEntity<List<RecruitCreateResponseDto>> getAllRecruits() {
+        List<RecruitCreateResponseDto> recruits = recruitService.findAllDesc();
         return ResponseEntity.ok().body(recruits);
     }
 
 
     @PostMapping("/create")
-    public ResponseEntity<RecruitResponseDto> createRecruit(HttpServletRequest httpServletRequest, @RequestBody RecruitRequestDto requestDto) {
+    public ResponseEntity<RecruitCreateResponseDto> createRecruit(HttpServletRequest httpServletRequest, @RequestBody RecruitCreateRequestDto requestDto) {
         String email = (String) httpServletRequest.getAttribute("email");
         requestDto.setWriterEmail(email);
 
         Recruit savedRecruit = recruitService.saveRecruit(requestDto);
 
-        recruitService.saveRecruitAdmin(savedRecruit);
-
-        return ResponseEntity.ok().body(RecruitResponseDto.from(savedRecruit));
+        return ResponseEntity.ok().body(RecruitCreateResponseDto.from(savedRecruit));
     }
 
 
     @PostMapping("/modify/{id}")
-    public ResponseEntity<RecruitResponseDto>  modifyRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitModifyDto modifyDto){
+    public ResponseEntity<RecruitCreateResponseDto>  modifyRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitModifyDto modifyDto){
         modifyDto.setRecruitId(id);
         String email = (String) httpServletRequest.getAttribute("email");
         modifyDto.setWriterEmail(email);
 
         Recruit updateRecruit = recruitService.update(modifyDto);
-        return ResponseEntity.ok().body(RecruitResponseDto.from(updateRecruit));
+        return ResponseEntity.ok().body(RecruitCreateResponseDto.from(updateRecruit));
     }
 
     @PostMapping("/delete/{id}")

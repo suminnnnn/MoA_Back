@@ -2,6 +2,7 @@ package com.example.moa.service.recruit;
 
 import com.example.moa.domain.*;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
+import com.example.moa.dto.recruit.RecruitUserDto;
 import com.example.moa.exception.DuplicateEmailException;
 import com.example.moa.exception.NotFindRecruitException;
 import com.example.moa.exception.UserNoIngredientException;
@@ -11,9 +12,11 @@ import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,36 +31,41 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     private final UserRepository userRepository;
     @Autowired
     private final RecruitUserRepository recruitUserRepository;
-
     @Autowired
     private final IngredientRepository ingredientRepository;
 
+
     @Override
-    public RecruitUser saveRecruitUser(Long id, String email, Role role) {
-        Recruit recruit = recruitRepository.findById(id)
+    public void saveRecruitUser(RecruitUserDto recruitUserDto) {
+
+        Recruit recruit = recruitRepository.findById(recruitUserDto.getRecruitId())
                 .orElseThrow( () -> new IllegalArgumentException("Invalid recruit Id"));
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user email"));
+        User user = userRepository.findByEmail(recruitUserDto.getUserEmail())
+                .orElseThrow( () -> new IllegalArgumentException("Invalid user email"));
 
-        RecruitUser savedRecruitUser= RecruitUser.builder()
+        List<Ingredient> ingredients = new ArrayList<>();
+
+        participationDuplicate(recruit,user);
+
+        for(Long i : recruitUserDto.getId()){
+            ingredients.add(ingredientRepository.findById(i)
+                    .orElseThrow(()->new UserNoIngredientException("no have ingredient")));
+        }
+
+        recruit.getRecruitUsers().add(
+                RecruitUser.builder()
                 .recruit(recruit)
                 .user(user)
-                .role(role)
-                .build();
-
-        recruit.addParticipatePeople();
-        return recruitUserRepository.save(savedRecruitUser);
+                .ingredients(ingredients)
+                        .build()
+        );
     }
     @Override
-    public void participationDuplicate(Long id, String email) {
-
-        Recruit recruit = recruitRepository.findById(id)
-                .orElseThrow( () -> new IllegalArgumentException("Invalid recruit Id"));
-
+    public void participationDuplicate(Recruit recruit,User user) {
         List<RecruitUser> recruitUsers= recruitUserRepository.findByRecruit(recruit);
         recruitUsers.stream()
-                .filter(recruitUser -> recruitUser.getUser().getEmail().equals(email))
+                .filter(recruitUser -> recruitUser.getUser().equals(user))
                 .findFirst()
                 .ifPresent(m -> {
                     throw new DuplicateEmailException("Duplicate participate");
@@ -70,6 +78,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
                 .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));;
         return recruit.getMaxPeople() > recruit.getParticipatePeople() ? true : false ;
     }
+
 
     @Override
     public List<IngredientResponseDto> getIngredientsByEmail(String email) {
