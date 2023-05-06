@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +19,18 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IOException.class)
-    public ResponseEntity<Object> handlerFileUploadException(IOException e){
+    public ResponseEntity<Object> handlerFileUploadException(IOException ex){
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("errorCode", "NOT_FOUND_FILE");
         errorResponse.put("errorMessage", "파일 업로드 오류가 발생했습니다.");
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<Object> handlerFileNotFoundException(FileNotFoundException ex){
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("errorCode", "NOT_FOUND_FILE");
+        errorResponse.put("errorMessage", "파일이 존재하지 않습니다.");
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
