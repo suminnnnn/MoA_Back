@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface RecruitParticipateService {
     void saveRecruitUser(RecruitUserDto participateDto);
+    void allowRecruitUser(Long id);
     void participationDuplicate(Recruit recruit, User user);
     boolean isMaxPeople(Long id);
     List<IngredientResponseDto> getIngredientsByEmail(String email);

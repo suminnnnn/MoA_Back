@@ -4,7 +4,7 @@ import com.example.moa.domain.*;
 import com.example.moa.dto.recruit.RecruitModifyDto;
 import com.example.moa.dto.recruit.RecruitCreateRequestDto;
 import com.example.moa.dto.recruit.RecruitCreateResponseDto;
-import com.example.moa.exception.NotFindRecruitException;
+import com.example.moa.exception.NotFindException;
 import com.example.moa.repository.RecruitRepository;
 import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
@@ -25,10 +25,6 @@ public class RecruitServiceImpl implements RecruitService {
 
 //    @Autowired
 //    private final ChatRoomRepository chatRoomRepository;
-
-    @Autowired
-    private final RecruitUserRepository recruitUserRepository;
-
     @Autowired
     private final UserRepository userRepository;
 
@@ -51,7 +47,7 @@ public class RecruitServiceImpl implements RecruitService {
     public Recruit update(RecruitModifyDto recruitModifyDto){
         Long id = recruitModifyDto.getRecruitId();
         Recruit recruit = recruitRepository.findById(id)
-                .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));
+                .orElseThrow(()->new NotFindException(id + " recruit not found"));
 
         return recruit.update(recruitModifyDto);
     }
@@ -59,7 +55,7 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public void delete(Long id){
         Recruit recruit = recruitRepository.findById(id)
-                .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));
+                .orElseThrow(()->new NotFindException(id + " recruit not found"));
         recruitRepository.delete(recruit);
     }
 

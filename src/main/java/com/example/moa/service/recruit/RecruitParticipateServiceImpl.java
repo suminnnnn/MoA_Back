@@ -4,7 +4,7 @@ import com.example.moa.domain.*;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
 import com.example.moa.dto.recruit.RecruitUserDto;
 import com.example.moa.exception.DuplicateEmailException;
-import com.example.moa.exception.NotFindRecruitException;
+import com.example.moa.exception.NotFindException;
 import com.example.moa.exception.UserNoIngredientException;
 import com.example.moa.repository.IngredientRepository;
 import com.example.moa.repository.RecruitRepository;
@@ -12,7 +12,6 @@ import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +49,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
         for(Long i : recruitUserDto.getId()){
             ingredients.add(ingredientRepository.findById(i)
-                    .orElseThrow(()->new UserNoIngredientException("no have ingredient")));
+                    .orElseThrow(()->new UserNoIngredientException("No have ingredient")));
         }
 
         recruit.getRecruitUsers().add(
@@ -61,6 +60,21 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
                         .build()
         );
     }
+
+    @Override
+    public void allowRecruitUser(Long id) {
+        RecruitUser recruitUser = recruitUserRepository.findById(id)
+                .orElseThrow(() -> new NotFindException("Not find recruitUser"));
+
+        Recruit recruit = recruitUser.getRecruit();
+        User user = recruitUser.getUser();
+
+        recruit.addUsers(user);
+
+        recruit.getRecruitUsers().remove(recruitUser);
+        recruitUserRepository.delete(recruitUser);
+    }
+
     @Override
     public void participationDuplicate(Recruit recruit,User user) {
         List<RecruitUser> recruitUsers= recruitUserRepository.findByRecruit(recruit);
@@ -75,15 +89,15 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     @Override
     public boolean isMaxPeople(Long id){
         Recruit recruit = recruitRepository.findById(id)
-                .orElseThrow(()->new NotFindRecruitException(id + " recruit not found"));;
-        return recruit.getMaxPeople() > recruit.getParticipatePeople() ? true : false ;
+                .orElseThrow(()->new NotFindException(id + " recruit not found"));;
+        return recruit.getMaxPeople() > recruit.getUsers().size() ? true : false ;
     }
 
 
     @Override
     public List<IngredientResponseDto> getIngredientsByEmail(String email) {
         User user= userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNoIngredientException("no have ingredient"));
+                .orElseThrow(() -> new UserNoIngredientException("No have ingredient"));
 
         System.out.println("user : "+ user.getIngredients().size());
 

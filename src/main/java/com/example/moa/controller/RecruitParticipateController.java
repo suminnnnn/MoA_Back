@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/recruit/participate/{id}")
+@RequestMapping("/recruit/{id}/participate")
 @RequiredArgsConstructor
 public class RecruitParticipateController {
     @Autowired
@@ -26,6 +26,14 @@ public class RecruitParticipateController {
         }
         return ResponseEntity.ok()
                 .body(new ApiResponse("참여 가능합니다.", "200"));
+    }
+
+    @PostMapping("/allow/{userId}")
+    public ResponseEntity<?> participateAllow(@PathVariable Long userId){
+        participateService.allowRecruitUser(userId);
+
+        return ResponseEntity.ok()
+                .body(new ApiResponse("승인 했습니다.","200"));
     }
 
     @PostMapping("/register")
