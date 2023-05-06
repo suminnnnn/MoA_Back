@@ -1,17 +1,15 @@
 package com.example.moa.service.recruit;
 
-import com.example.moa.domain.Ingredient;
-import com.example.moa.domain.RecruitUser;
-import com.example.moa.domain.Role;
+import com.example.moa.domain.*;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.moa.dto.recruit.RecruitUserDto;
 
 import java.util.List;
 
 public interface RecruitParticipateService {
-    RecruitUser saveRecruitUser(Long id, String email, Role role);
-    void participationDuplicate(Long id, String email);
+    void saveRecruitUser(RecruitUserDto participateDto);
+    void allowRecruitUser(Long id);
+    void participationDuplicate(Recruit recruit, User user);
     boolean isMaxPeople(Long id);
-    String getEmailFromToken(HttpServletRequest request);
     List<IngredientResponseDto> getIngredientsByEmail(String email);
 }

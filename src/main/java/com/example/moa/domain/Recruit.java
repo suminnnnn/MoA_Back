@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +19,14 @@ public class Recruit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recruitId;
+    private Long id;
 
     private String foodName;
 
-    @ElementCollection
-    @OneToMany(mappedBy = "id",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients = new ArrayList<>();
 
     private int maxPeople;
-
-    private int participatePeople;
-
     @Column(name = "recruit_date")
     private LocalDate recruitDate;
     // 모임 날짜
@@ -48,15 +43,20 @@ public class Recruit {
 
     private String content;
 
-    @Column(name = "recruit_users")
+    @ManyToMany(mappedBy = "recruits", cascade = CascadeType.ALL)
+    private List<User> users = new ArrayList<>();
+    //승인된 참가자
+
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
-    @ElementCollection
     private List<RecruitUser> recruitUsers = new ArrayList<>();
+    //대기열
 
     private List<String> needIngredients = new ArrayList<>();
 
-    public void addParticipatePeople(){
-        participatePeople++;
+
+    public void addUsers(User user){
+        users.add(user);
+        user.getRecruits().add(this);
     }
     public Recruit update(RecruitModifyDto modifyDto) {
 

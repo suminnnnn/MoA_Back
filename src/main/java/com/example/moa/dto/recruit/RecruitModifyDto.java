@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class RecruitModifyDto extends RecruitRequestDto {
+public class RecruitModifyDto extends RecruitCreateRequestDto {
     private Long recruitId;
 
 }

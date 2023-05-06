@@ -29,10 +29,10 @@ public class SignUpController {
     @GetMapping("/validation")
     public ResponseEntity<ApiResponse> validateUser(HttpServletRequest request, @RequestParam String email) {
         loginService.isEmailDuplicate(email);
-        ResponseCookie cookie = loginService.makeCsrf(request);
+//        ResponseCookie cookie = loginService.makeCsrf(request);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+//                .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new ApiResponse("사용가능한 e-mail 입니다.", "200"));
     }
 }

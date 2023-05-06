@@ -1,7 +1,7 @@
 package com.example.moa.controller;
 
-import com.example.moa.domain.Role;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
+import com.example.moa.dto.recruit.RecruitUserDto;
 import com.example.moa.service.recruit.RecruitParticipateService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/recruit/participate/{id}")
+@RequestMapping("/recruit/{id}/participate")
 @RequiredArgsConstructor
 public class RecruitParticipateController {
     @Autowired
@@ -28,21 +28,34 @@ public class RecruitParticipateController {
                 .body(new ApiResponse("참여 가능합니다.", "200"));
     }
 
-    @PostMapping("/enter")
-    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id){
-        String email = participateService.getEmailFromToken(httpServletRequest);
+    @PostMapping("/allow/{userId}")
+    public ResponseEntity<?> participateAllow(@PathVariable Long userId){
+        participateService.allowRecruitUser(userId);
+
+        return ResponseEntity.ok()
+                .body(new ApiResponse("승인 했습니다.","200"));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitUserDto recruitUserDto){
         if(!participateService.isMaxPeople(id)){
             return ResponseEntity.badRequest().body("인원 초과입니다.");
         }
-        participateService.participationDuplicate(id,email);
-        participateService.saveRecruitUser(id,email, Role.USER);
+        String email = (String) httpServletRequest.getAttribute("email");
+
+        recruitUserDto.setRecruitId(id);
+        recruitUserDto.setUserEmail(email);
+
+        participateService.saveRecruitUser(recruitUserDto);
         return new ResponseEntity<>("참여 신청 완료 되었습니다.", HttpStatus.CREATED); //201
     }
 
     @GetMapping("/ingredients")
     public ResponseEntity<List<IngredientResponseDto>> participateIngredient(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        String email = participateService.getEmailFromToken(httpServletRequest);
+        String email = (String) httpServletRequest.getAttribute("email");
+
         List<IngredientResponseDto> ingredients = participateService.getIngredientsByEmail(email);
+
         return ResponseEntity.ok().body(ingredients);
     }
 }

@@ -11,6 +11,5 @@ public interface LoginService{
     User authenticate(UserDto userdto);
     User join(SignUpDto signUpDto);
     void isEmailDuplicate(String email);
-    ResponseCookie makeCsrf(HttpServletRequest request);
     String generateJwt(User user);
 }

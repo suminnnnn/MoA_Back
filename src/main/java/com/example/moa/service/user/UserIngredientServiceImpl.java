@@ -5,12 +5,10 @@ import com.example.moa.domain.User;
 import com.example.moa.dto.ingredient.IngredientRequestDto;
 import com.example.moa.repository.IngredientRepository;
 import com.example.moa.repository.UserRepository;
-import com.example.moa.service.base.BaseService;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.Translation;
 import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -37,8 +34,6 @@ public class UserIngredientServiceImpl implements UserIngredientService {
     @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
-    private final BaseService baseService;
 
     @Autowired
     private Translate translate;
@@ -47,7 +42,7 @@ public class UserIngredientServiceImpl implements UserIngredientService {
         String originalFilename = multipartFile.getOriginalFilename();
 
         //서버에 사진을 저장할 경로 지정
-        String url = "C:/Users/tlsss/Desktop/imageMoa/receipt/" + originalFilename;
+        String url = "C:/Users/정현지/Desktop/Ajou/3-1/파란학기_모아/" + originalFilename;
 
         multipartFile.transferTo(new File(url));
 
@@ -58,7 +53,7 @@ public class UserIngredientServiceImpl implements UserIngredientService {
         String originalFilename = multipartFile.getOriginalFilename();
 
         //서버에 사진을 저장할 경로 지정
-        String url = "C:/Users/tlsss/Desktop/imageMoa/ingredient/" + originalFilename;
+        String url = "C:/Users/정현지/Desktop/Ajou/3-1/파란학기_모아/" + originalFilename;
 
         multipartFile.transferTo(new File(url));
 
@@ -121,18 +116,16 @@ public class UserIngredientServiceImpl implements UserIngredientService {
     }
 
     @Override
-    public String getEmailFromToken(HttpServletRequest request){
-        return baseService.getEmailFromToken(request);
-    }
-
-    @Override
-    public Ingredient registerUser(IngredientRequestDto ingredientDto) {
-        User user = userRepository.findByEmail(ingredientDto.getUserEmail())
+    public Ingredient registerUserIngredient(IngredientRequestDto ingredientDto) {
+        User user = userRepository.findByEmail(ingredientDto.getUserEmail().get())
                 .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + ingredientDto.getUserEmail()));
-        
-        Ingredient savedIngredient = ingredientDto.toEntity(user);
 
-        return ingredientRepository.save(savedIngredient);
+        Ingredient savedIngredient = ingredientDto.toEntity(user);
+        user.getIngredients().add(savedIngredient);
+
+        userRepository.save(user);
+
+        return savedIngredient;
     }
 
 }
