@@ -1,20 +1,16 @@
 package com.example.moa.service.recruit;
 
 import com.example.moa.domain.Recruit;
-import com.example.moa.domain.RecruitUser;
 import com.example.moa.dto.recruit.RecruitModifyDto;
-import com.example.moa.dto.recruit.RecruitRequestDto;
-import com.example.moa.dto.recruit.RecruitResponseDto;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.moa.dto.recruit.RecruitCreateRequestDto;
+import com.example.moa.dto.recruit.RecruitCreateResponseDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RecruitService {
-    Recruit saveRecruit(RecruitRequestDto requestDto);
-    RecruitUser saveRecruitAdmin(Recruit savedRecruit);
+    Recruit saveRecruit(RecruitCreateRequestDto requestDto);
     Recruit update(RecruitModifyDto recruitModifyDto);
-    List<RecruitResponseDto> findAllDesc();
+    List<RecruitCreateResponseDto> findAllDesc();
 
     void delete(Long id);
 

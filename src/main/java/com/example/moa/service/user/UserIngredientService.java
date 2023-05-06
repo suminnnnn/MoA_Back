@@ -14,5 +14,5 @@ public interface UserIngredientService {
     List<String> getLabelsFromImage(String imgFilePath) throws Exception;
     List<String> translateWords(List<String> words, String sourceLanguage, String targetLanguage);
     String translate(String text, String sourceLanguage, String targetLanguage);
-    Ingredient registerUser(IngredientRequestDto ingredientDto);
+    Ingredient registerUserIngredient(IngredientRequestDto ingredientDto);
 }

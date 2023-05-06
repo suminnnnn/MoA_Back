@@ -26,7 +26,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registration.excludePathPatterns("/user/**");
 
         registry.addInterceptor(authenticationInterceptor)
-                .addPathPatterns("/recruit/**");
+                .addPathPatterns("/recruit/**")
+                .addPathPatterns("/user/ingredient/register");
     }
 }
 
