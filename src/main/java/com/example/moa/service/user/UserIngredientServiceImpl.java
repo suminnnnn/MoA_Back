@@ -60,7 +60,6 @@ public class UserIngredientServiceImpl implements UserIngredientService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return url;
     }
 
