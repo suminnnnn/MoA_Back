@@ -53,13 +53,14 @@ public class UserIngredientServiceImpl implements UserIngredientService {
         String originalFilename = multipartFile.getOriginalFilename();
 
         //서버에 사진을 저장할 경로 지정
-        String url = "C:/Users/정현지/Desktop/Ajou/3-1/파란학기_모아/" + originalFilename;
+        String url = "/home/ubuntu/app/image/receipt/" + originalFilename;
 
         try {
             multipartFile.transferTo(new File(url));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("receipt image 저장 완료: url = " + url);
         return url;
     }
 
@@ -74,13 +75,15 @@ public class UserIngredientServiceImpl implements UserIngredientService {
         String originalFilename = multipartFile.getOriginalFilename();
 
         //서버에 사진을 저장할 경로 지정
-        String url = "C:/Users/정현지/Desktop/Ajou/3-1/파란학기_모아/" + originalFilename;
+        String url = "/home/ubuntu/app/image/ingredient/" + originalFilename;
 
         try {
             multipartFile.transferTo(new File(url));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("ingredient image 저장 완료: url = " + url);
 
         return url;
     }
