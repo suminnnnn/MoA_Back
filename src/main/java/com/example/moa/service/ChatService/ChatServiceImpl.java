@@ -1,9 +1,12 @@
 package com.example.moa.service.ChatService;
 
 import com.example.moa.domain.ChatMessage;
+import com.example.moa.domain.ChatRoom;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.dto.chat.ChatMessageResponseDto;
+import com.example.moa.exception.NotFindException;
 import com.example.moa.repository.ChatMessageRepository;
+import com.example.moa.repository.ChatRoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +24,44 @@ public class ChatServiceImpl implements  ChatService{
     @Autowired
     private final ChatMessageRepository chatMessageRepository;
 
+    @Autowired
+    private final ChatRoomRepository chatRoomRepository;
+
+    @Override
     public List<ChatMessageResponseDto> getChatMessagesByRoomId(String roomId) {
-        return chatMessageRepository.findByRoomIdOrderByTimestampAsc(roomId)
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId)
+                .orElseThrow(() ->  new NotFindException(roomId + "chatRoom is not found"));
+
+        return chatRoom.getMessages()
                 .stream()
                 .map(ChatMessageResponseDto :: from)
                 .collect(Collectors.toList());
     }
 
+    @Override
     public ChatMessage saveChatMessage(ChatMessageRequestDto chatMessageDto) {
+        ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
+                .orElseThrow(()-> new NotFindException(chatMessageDto.getRoomId() + "chatRoom is not found"));
+
         return chatMessageRepository.save(
                 ChatMessage.builder()
-                        .roomId(chatMessageDto.getRoomId())
+                        .chatRoom(chatRoom)
                         .content(chatMessageDto.getContent())
                         .sender(chatMessageDto.getSender())
                         .timestamp(LocalDateTime.from(LocalDate.now()))
                         .build()
         );
+    }
+
+    @Override
+    public String createChatRoom(){
+        String roomId = "personal-"+ChatRoom.num++;
+        chatRoomRepository.save(
+                ChatRoom.builder()
+                        .id(roomId)
+                        .build()
+        );
+        return roomId;
     }
 
 }

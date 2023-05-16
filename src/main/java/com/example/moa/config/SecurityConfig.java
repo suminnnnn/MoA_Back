@@ -12,8 +12,6 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 public class SecurityConfig{
     @Bean
     SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
-//        http.csrf()
-//                .ignoringRequestMatchers("/user/login");
         http.csrf().disable();
         return http.build();
     }

@@ -21,10 +21,16 @@ public class RecruitController{
     @Autowired
     private final RecruitService recruitService;
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<RecruitCreateResponseDto>> getAllRecruits() {
         List<RecruitCreateResponseDto> recruits = recruitService.findAllDesc();
         return ResponseEntity.ok().body(recruits);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RecruitCreateResponseDto> getRecruit(@PathVariable Long id){
+        RecruitCreateResponseDto recruitResponseDto = recruitService.showRecruit(id);
+        return ResponseEntity.ok().body(recruitResponseDto);
     }
 
 

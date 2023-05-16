@@ -9,4 +9,5 @@ import java.util.List;
 public interface ChatService {
     ChatMessage saveChatMessage(ChatMessageRequestDto chatMessageDto);
     List<ChatMessageResponseDto> getChatMessagesByRoomId(String roomId);
+    String createChatRoom();
 }

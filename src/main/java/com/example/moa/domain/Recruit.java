@@ -55,7 +55,6 @@ public class Recruit {
 
     private String chatRoomId;
 
-
     public void addUsers(User user){
         users.add(user);
         user.getRecruits().add(this);

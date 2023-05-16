@@ -34,6 +34,7 @@ public class RecruitCreateResponseDto {
 
     private String content;
 
+    private String roomId;
     public static RecruitCreateResponseDto from(Recruit recruit){
 
         User writer = recruit.getWriter();
@@ -49,6 +50,7 @@ public class RecruitCreateResponseDto {
                 .writerEmail(writer.getEmail())
                 .title(recruit.getTitle())
                 .content(recruit.getContent())
+                .roomId(recruit.getChatRoomId())
                 .build();
     }
 }
