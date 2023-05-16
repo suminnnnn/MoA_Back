@@ -1,7 +1,8 @@
 package com.example.moa.controller;
 
 import com.example.moa.domain.ChatMessage;
-import com.example.moa.dto.ChatMessageDto;
+import com.example.moa.dto.chat.ChatMessageRequestDto;
+import com.example.moa.dto.chat.ChatMessageResponseDto;
 import com.example.moa.service.ChatService.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,7 +29,7 @@ public class ChatController {
     private final ChatService chatService;
 
     @MessageMapping("/chat.sendMessage")
-    public void sendMessage(ChatMessageDto chatMessageDto) {
+    public void sendMessage(@RequestBody ChatMessageRequestDto chatMessageDto) {
         // 채팅 메시지를 저장
         ChatMessage chatMessage = chatService.saveChatMessage(chatMessageDto);
 
@@ -43,8 +45,8 @@ public class ChatController {
     }
 
     @GetMapping("/chat/{roomId}/messages")
-    public ResponseEntity<List<ChatMessage>> getChatMessages(@PathVariable String roomId) {
-        List<ChatMessage> chatMessages = chatService.getChatMessagesByRoomId(roomId);
+    public ResponseEntity<List<ChatMessageResponseDto>> getChatMessages(@PathVariable String roomId) {
+        List<ChatMessageResponseDto> chatMessages = chatService.getChatMessagesByRoomId(roomId);
         return ResponseEntity.ok(chatMessages);
     }
 }

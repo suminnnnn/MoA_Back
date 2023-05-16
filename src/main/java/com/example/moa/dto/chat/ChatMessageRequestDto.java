@@ -1,4 +1,4 @@
-package com.example.moa.dto;
+package com.example.moa.dto.chat;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class ChatMessageDto {
+public class ChatMessageRequestDto {
 
     private String roomId;
 
