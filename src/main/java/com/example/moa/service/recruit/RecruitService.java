@@ -11,7 +11,7 @@ public interface RecruitService {
     Recruit saveRecruit(RecruitCreateRequestDto requestDto);
     Recruit update(RecruitModifyDto recruitModifyDto);
     List<RecruitCreateResponseDto> findAllDesc();
-
     void delete(Long id);
+    String getChatRoomId(Long id);
 
 }

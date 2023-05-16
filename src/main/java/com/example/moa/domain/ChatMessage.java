@@ -1,29 +1,32 @@
-//package com.example.moa.domain;
-//
-//import jakarta.persistence.*;
-//import lombok.*;
-//
-//import java.time.LocalDate;
-//
-//@Entity
-//@Getter
-//@Setter
-//@Builder
-//@NoArgsConstructor
-//@AllArgsConstructor
-//public class ChatMessage {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    private String sender;
-//
-//    private String message;
-//
-//    private LocalDate timestamp;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private ChatRoom chatRoom;
-//
-//}
+package com.example.moa.domain;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "chat_messages")
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ChatMessage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "room_id")
+    private String roomId;
+
+    @Column(name = "content")
+    private String content;
+
+    @Column(name = "sender")
+    private String sender;
+
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
+}

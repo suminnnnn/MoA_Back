@@ -55,4 +55,11 @@ public class RecruitController{
         return ResponseEntity.ok()
                 .body(new ApiResponse("삭제 되었습니다.", "200"));
     }
+
+    @GetMapping("/chat/{id}")
+    public ResponseEntity<String> chatRoomIdForRecruit(@PathVariable Long id){
+        String roomId = recruitService.getChatRoomId(id);
+        return ResponseEntity.ok()
+                .body(roomId);
+    }
 }

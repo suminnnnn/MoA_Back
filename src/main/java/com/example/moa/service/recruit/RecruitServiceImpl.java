@@ -6,7 +6,6 @@ import com.example.moa.dto.recruit.RecruitCreateRequestDto;
 import com.example.moa.dto.recruit.RecruitCreateResponseDto;
 import com.example.moa.exception.NotFindException;
 import com.example.moa.repository.RecruitRepository;
-import com.example.moa.repository.RecruitUserRepository;
 import com.example.moa.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,6 @@ public class RecruitServiceImpl implements RecruitService {
     @Autowired
     private final RecruitRepository recruitRepository;
 
-//    @Autowired
-//    private final ChatRoomRepository chatRoomRepository;
     @Autowired
     private final UserRepository userRepository;
 
@@ -34,11 +31,7 @@ public class RecruitServiceImpl implements RecruitService {
                 .orElse(null);
 
         Recruit recruit = requestDto.toEntity(writer);
-//        chatRoomRepository.save(
-//                ChatRoom.builder()
-//                    .recruit(Optional.ofNullable(recruit))
-//                    .build()
-//        );
+        recruit.setChatRoomId("recruit-"+recruit.getId());
         return recruitRepository.save(recruit);
     }
 
@@ -66,6 +59,11 @@ public class RecruitServiceImpl implements RecruitService {
                 .map(RecruitCreateResponseDto::from)
                 .collect(Collectors.toList());
     }
-
+    @Override
+    public String getChatRoomId(Long id){
+        Recruit recruit = recruitRepository.findById(id)
+                .orElseThrow(()->new NotFindException(id + " recruit not found"));
+        return recruit.getChatRoomId();
+    }
 }
 

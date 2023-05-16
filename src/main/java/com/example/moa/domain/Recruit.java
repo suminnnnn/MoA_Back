@@ -53,6 +53,8 @@ public class Recruit {
 
     private List<String> needIngredients = new ArrayList<>();
 
+    private String chatRoomId;
+
 
     public void addUsers(User user){
         users.add(user);
