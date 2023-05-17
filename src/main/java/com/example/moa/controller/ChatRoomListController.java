@@ -1,5 +1,6 @@
 package com.example.moa.controller;
 
+import com.example.moa.dto.chat.ChatRoomDto;
 import com.example.moa.service.ChatService.ChatService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,9 @@ public class ChatRoomListController {
         return ResponseEntity.ok().body(roomId);
     }
     @PostMapping("/chat/list")
-    public ResponseEntity<List<String>> showChatRoomList(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<List<ChatRoomDto>> showChatRoomList(HttpServletRequest httpServletRequest) {
         String email = (String) httpServletRequest.getAttribute("email");
-        List<String> chatRooms = chatService.showList(email);
+        List<ChatRoomDto> chatRooms = chatService.showList(email);
 
         return ResponseEntity.ok().body(chatRooms);
     }

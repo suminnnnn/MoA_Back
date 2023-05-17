@@ -5,6 +5,7 @@ import com.example.moa.domain.ChatRoom;
 import com.example.moa.domain.User;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.dto.chat.ChatMessageResponseDto;
+import com.example.moa.dto.chat.ChatRoomDto;
 import com.example.moa.exception.NotFindException;
 import com.example.moa.repository.ChatMessageRepository;
 import com.example.moa.repository.ChatRoomRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,10 +72,25 @@ public class ChatServiceImpl implements  ChatService{
     }
 
     @Override
-    public List<String> showList(String email){
+    public List<ChatRoomDto> showList(String email){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + email));
-        return user.getChatRoomId();
+
+        List<String> chatRoomId = user.getChatRoomId();
+        List<ChatRoomDto> chatRooms = new ArrayList<>();
+
+        for(String id : chatRoomId){
+            ChatRoom chatRoom = chatRoomRepository.findById(id)
+                    .orElseThrow(()->new NotFindException(id + "chatRoom is not found"));
+
+            ChatRoomDto chatRoomDto = ChatRoomDto.builder()
+                    .Id(id)
+                    .name(chatRoom.getName())
+                    .build();
+
+            chatRooms.add(chatRoomDto);
+        }
+        return chatRooms;
     }
 
 }
