@@ -68,4 +68,13 @@ public class RecruitController{
         return ResponseEntity.ok()
                 .body(roomId);
     }
+
+    @GetMapping("/list/my")
+    public ResponseEntity<List<RecruitCreateResponseDto>> getMyRecruits(HttpServletRequest httpServletRequest) {
+
+        String email = (String) httpServletRequest.getAttribute("email");
+
+        List<RecruitCreateResponseDto> recruits = recruitService.findMyList(email);
+        return ResponseEntity.ok().body(recruits);
+    }
 }

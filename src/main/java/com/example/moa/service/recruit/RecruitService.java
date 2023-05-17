@@ -15,4 +15,6 @@ public interface RecruitService {
     void delete(Long id);
     String getChatRoomId(Long id);
 
+    List<RecruitCreateResponseDto> findMyList(String email);
+
 }

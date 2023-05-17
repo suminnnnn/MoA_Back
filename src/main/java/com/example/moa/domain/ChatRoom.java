@@ -18,6 +18,8 @@ public class ChatRoom {
     @Id
     private String id;
 
+    private String name;
+
     @OneToMany(mappedBy="chatRoom", cascade = CascadeType.ALL)
     @OrderBy("timestamp ASC")
     private List<ChatMessage> messages = new ArrayList<>();

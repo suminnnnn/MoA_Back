@@ -51,4 +51,5 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients =new ArrayList<>();
 
+    private List<String> chatRoomId = new ArrayList<>();
 }

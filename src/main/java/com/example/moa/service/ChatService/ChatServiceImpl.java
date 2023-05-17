@@ -2,11 +2,13 @@ package com.example.moa.service.ChatService;
 
 import com.example.moa.domain.ChatMessage;
 import com.example.moa.domain.ChatRoom;
+import com.example.moa.domain.User;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.dto.chat.ChatMessageResponseDto;
 import com.example.moa.exception.NotFindException;
 import com.example.moa.repository.ChatMessageRepository;
 import com.example.moa.repository.ChatRoomRepository;
+import com.example.moa.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ChatServiceImpl implements  ChatService{
 
     @Autowired
     private final ChatRoomRepository chatRoomRepository;
+
+    @Autowired
+    private final UserRepository userRepository;
 
     @Override
     public List<ChatMessageResponseDto> getChatMessagesByRoomId(String roomId) {
@@ -62,6 +67,13 @@ public class ChatServiceImpl implements  ChatService{
                         .build()
         );
         return roomId;
+    }
+
+    @Override
+    public List<String> showList(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + email));
+        return user.getChatRoomId();
     }
 
 }

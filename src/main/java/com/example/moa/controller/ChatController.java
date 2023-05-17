@@ -39,6 +39,7 @@ public class ChatController {
     public void subscribeToRoom(@DestinationVariable String roomId, SimpMessageHeaderAccessor headerAccessor) {
         String topic = "/topic/room/" + roomId;
         String sessionId = headerAccessor.getSessionId();
+
         messagingTemplate.convertAndSend(topic, "New user subscribed: " + sessionId);
     }
 

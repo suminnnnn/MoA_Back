@@ -6,10 +6,7 @@ import com.example.moa.dto.recruit.RecruitUserDto;
 import com.example.moa.exception.DuplicateEmailException;
 import com.example.moa.exception.NotFindException;
 import com.example.moa.exception.UserNoIngredientException;
-import com.example.moa.repository.IngredientRepository;
-import com.example.moa.repository.RecruitRepository;
-import com.example.moa.repository.RecruitUserRepository;
-import com.example.moa.repository.UserRepository;
+import com.example.moa.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,9 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     private final RecruitUserRepository recruitUserRepository;
     @Autowired
     private final IngredientRepository ingredientRepository;
+
+    @Autowired
+    private final ChatRoomRepository chatRoomRepository;
 
 
     @Override
@@ -73,6 +73,9 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
         recruit.getRecruitUsers().remove(recruitUser);
         recruitUserRepository.delete(recruitUser);
+
+        String chatRoomId = recruit.getChatRoomId();
+        user.getChatRoomId().add(chatRoomId);
     }
 
     @Override

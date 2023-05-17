@@ -37,11 +37,13 @@ public class RecruitServiceImpl implements RecruitService {
         Recruit recruit = requestDto.toEntity(writer);
 
         recruit.setChatRoomId("recruit-"+recruit.getId());
-        chatRoomRepository.save(
+
+        ChatRoom chatRoom = chatRoomRepository.save(
                 ChatRoom.builder()
                         .id(recruit.getChatRoomId())
                         .build()
         );
+        chatRoom.setName(recruit.getTitle());
         return recruitRepository.save(recruit);
     }
 
@@ -84,5 +86,12 @@ public class RecruitServiceImpl implements RecruitService {
         return recruit.getChatRoomId();
     }
 
+    @Override
+    public List<RecruitCreateResponseDto> findMyList(String email){
+        List<Recruit> recruits = recruitRepository.findByWriterEmail(email);
+        return recruits.stream()
+                .map(RecruitCreateResponseDto::from)
+                .collect(Collectors.toList());
+    }
 }
 
