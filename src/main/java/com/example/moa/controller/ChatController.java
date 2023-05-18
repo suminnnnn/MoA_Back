@@ -4,7 +4,6 @@ import com.example.moa.domain.ChatMessage;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.dto.chat.ChatMessageResponseDto;
 import com.example.moa.service.ChatService.ChatService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

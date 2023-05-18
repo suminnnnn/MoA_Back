@@ -3,9 +3,7 @@ package com.example.moa.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -51,5 +49,5 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients =new ArrayList<>();
 
-    private List<String> chatRoomId = new ArrayList<>();
+    private List<String> chatRoomId;
 }

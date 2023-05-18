@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ public class ChatRoomListController {
         String roomId = chatService.createChatRoom();
         return ResponseEntity.ok().body(roomId);
     }
-    @PostMapping("/chat/list")
+    @GetMapping("/chat/list")
     public ResponseEntity<List<ChatRoomDto>> showChatRoomList(HttpServletRequest httpServletRequest) {
         String email = (String) httpServletRequest.getAttribute("email");
         List<ChatRoomDto> chatRooms = chatService.showList(email);
