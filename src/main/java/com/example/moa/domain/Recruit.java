@@ -51,9 +51,13 @@ public class Recruit {
     private List<RecruitUser> recruitUsers = new ArrayList<>();
     //대기열
 
+    @Lob
     private List<String> needIngredients = new ArrayList<>();
 
     private String chatRoomId;
+
+    @OneToOne(mappedBy = "recruit")
+    private Reservation reservation;
 
     public void addUsers(User user){
         users.add(user);
