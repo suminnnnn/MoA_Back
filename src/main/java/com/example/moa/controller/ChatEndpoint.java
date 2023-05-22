@@ -16,14 +16,15 @@ import java.util.*;
 @RequiredArgsConstructor
 @ServerEndpoint("/chat/room/{roomId}")
 public class ChatEndpoint {
-    private static Map<String, Set<Session>> roomSessions = new HashMap<>();
+    private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
     @Autowired
     private final ChatService chatService;
 
     @OnOpen
     public void onOpen(Session session, @PathVariable String roomId) {
-        roomSessions.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>())).add(session);
+        Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
+        roomSessions.add(session);
     }
 
     @OnMessage
@@ -34,7 +35,7 @@ public class ChatEndpoint {
 
     @OnClose
     public void onClose(Session session, @PathVariable String roomId) {
-        Set<Session> sessions = roomSessions.get(roomId);
+        Set<Session> sessions = roomSessionMap.get(roomId);
         if (sessions != null) {
             sessions.remove(session);
         }
@@ -46,7 +47,7 @@ public class ChatEndpoint {
     }
 
     private static void broadcast(String message, String roomId) throws IOException{
-        Set<Session> sessions = roomSessions.get(roomId);
+        Set<Session> sessions = roomSessionMap.get(roomId);
         if (sessions != null) {
             for (Session session : sessions) {
                 session.getBasicRemote().sendText(message);
