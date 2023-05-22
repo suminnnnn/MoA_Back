@@ -4,6 +4,7 @@ package com.example.moa.controller;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.service.ChatService.ChatService;
 import jakarta.websocket.*;
+import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ChatEndpoint {
     private final ChatService chatService;
 
     @OnOpen
-    public void onOpen(Session session, @PathVariable("roomId") String roomId) {
+    public void onOpen(Session session, @PathParam("roomId") String roomId) {
         System.out.println("roomId : "+roomId);
         Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
         roomSessions.add(session);
