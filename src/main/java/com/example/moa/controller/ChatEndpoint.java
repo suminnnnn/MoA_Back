@@ -7,6 +7,9 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -23,6 +26,9 @@ public class ChatEndpoint {
 
     @OnOpen
     public void onOpen(Session session, @PathVariable String roomId) {
+        if (roomId == null) {
+            throw new IllegalArgumentException("Invalid roomId");
+        }
         Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
         roomSessions.add(session);
     }
