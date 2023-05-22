@@ -4,7 +4,6 @@ package com.example.moa.controller;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.service.ChatService.ChatService;
 import jakarta.websocket.*;
-import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.io.IOException;
 import java.util.*;
 
 @RequiredArgsConstructor
-@ServerEndpoint("/chat/{roomId}")
+@ServerEndpoint("/chat/room/{roomId}")
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessions = new HashMap<>();
 
