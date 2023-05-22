@@ -25,22 +25,21 @@ public class ChatEndpoint {
     private final ChatService chatService;
 
     @OnOpen
-    public void onOpen(Session session, @PathVariable String roomId) {
-        if (roomId == null) {
-            throw new IllegalArgumentException("Invalid roomId");
-        }
+    public void onOpen(Session session, EndpointConfig config) {
+        String roomId = (String) config.getUserProperties().get("roomId");
+        System.out.println("roomId : "+roomId);
         Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
         roomSessions.add(session);
     }
 
     @OnMessage
-    public void onMessage(@RequestBody ChatMessageRequestDto chatMessageRequestDto, Session session, @PathVariable String roomId) throws IOException{
+    public void onMessage(ChatMessageRequestDto chatMessageRequestDto, Session session, String roomId) throws IOException{
         chatService.saveChatMessage(chatMessageRequestDto);
         broadcast(chatMessageRequestDto.getContent(), roomId);
     }
 
     @OnClose
-    public void onClose(Session session, @PathVariable String roomId) {
+    public void onClose(Session session, String roomId) {
         Set<Session> sessions = roomSessionMap.get(roomId);
         if (sessions != null) {
             sessions.remove(session);
@@ -48,7 +47,7 @@ public class ChatEndpoint {
     }
 
     @OnError
-    public void onError(Session session, @PathVariable String roomId, Throwable throwable) {
+    public void onError(Session session, String roomId, Throwable throwable) {
         // 에러 처리 로직 작성
     }
 
