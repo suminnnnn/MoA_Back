@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 @RequiredArgsConstructor
-@ServerEndpoint("/chat/room/{roomId}")
+@ServerEndpoint("/chat/room")
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
@@ -24,9 +24,8 @@ public class ChatEndpoint {
     private final ChatService chatService;
 
     @OnOpen
-    public void onOpen(Session session, HttpServletRequest request) {
-        String path = request.getRequestURI();
-        String roomId = extractRoomIdFromPath(path);
+    public void onOpen(Session session) {
+        String roomId = "success";
         System.out.println("roomId : "+roomId);
         Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
         roomSessions.add(session);
