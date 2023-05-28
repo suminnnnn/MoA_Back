@@ -52,14 +52,14 @@ public class ChatServiceImpl implements  ChatService{
 
         System.out.println("chatRoom find success");
         System.out.println("chatRoom name : "+chatRoom.getName());
-        System.out.println("get LocalTime : " + LocalDateTime.from(LocalDate.now()).getClass().getName());
+        System.out.println("get LocalTime : " + LocalDateTime.now());
 
         ChatMessage chatMessage = chatMessageRepository.save(
                 ChatMessage.builder()
                         .chatRoom(chatRoom)
                         .content(chatMessageDto.getContent())
                         .sender(chatMessageDto.getSender())
-                        .timestamp(LocalDateTime.from(LocalDate.now()))
+                        .timestamp(LocalDateTime.now())
                         .build()
         );
 
