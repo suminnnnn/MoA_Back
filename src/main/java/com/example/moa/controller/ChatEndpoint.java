@@ -26,7 +26,7 @@ public class ChatEndpoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
-        System.out.println("success")
+        System.out.println("success");
         System.out.println("roomId : "+roomId);
         Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
         roomSessions.add(session);
