@@ -7,26 +7,26 @@ import com.example.moa.service.ChatService.ChatService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 
 
-
-@AllArgsConstructor
-@NoArgsConstructor
 @ServerEndpoint("/chat/{roomId}/{userEmail}")
 @Component
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
-    @Autowired
     private ChatService chatService;
 
+    @Autowired
+    private void setChatService(ApplicationContext applicationContext) {
+        chatService = applicationContext.getBean(ChatService.class);
+    }
 
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
