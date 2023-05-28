@@ -23,9 +23,8 @@ public class ChatEndpoint {
 
     private ChatService chatService;
 
-    @Autowired
-    private void setChatService(ApplicationContext applicationContext) {
-        chatService = applicationContext.getBean(ChatService.class);
+    public void setChatService(ChatService chatService) {
+        this.chatService = chatService;
     }
 
     @OnOpen
