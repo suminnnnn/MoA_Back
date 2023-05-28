@@ -17,7 +17,6 @@ import java.util.*;
 
 
 @RequiredArgsConstructor
-@AllArgsConstructor
 @ServerEndpoint("/chat/{roomId}/{userEmail}")
 @Component
 public class ChatEndpoint {
