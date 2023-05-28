@@ -1,22 +1,20 @@
 package com.example.moa.controller;
 
 
+import com.example.moa.config.WebSocketConfigurator;
 import com.example.moa.domain.ChatMessage;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.service.ChatService.ChatService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 
 
-@ServerEndpoint("/chat/{roomId}/{userEmail}")
+@ServerEndpoint(value = "/chat/{roomId}/{userEmail}",configurator = WebSocketConfigurator.class)
 @Component
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();

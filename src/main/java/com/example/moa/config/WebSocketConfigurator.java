@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WebSocketConfig extends ServerEndpointConfig.Configurator {
+public class WebSocketConfigurator extends ServerEndpointConfig.Configurator {
 
     @Autowired
     private ChatService chatService;
