@@ -1,24 +1,30 @@
 package com.example.moa.controller;
 
 
+import com.example.moa.domain.ChatMessage;
+import com.example.moa.dto.chat.ChatMessageRequestDto;
+import com.example.moa.service.ChatService.ChatService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 
 
-@ServerEndpoint("/chat/{roomId}")
+@RequiredArgsConstructor
+@ServerEndpoint("/chat/{roomId}/{userEmail}")
 @Component
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
-    //private final ChatService chatService;
+    @Autowired
+    private final ChatService chatService;
 
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
@@ -27,17 +33,17 @@ public class ChatEndpoint {
         roomSessions.add(session);
     }
 
-//    @OnMessage
-//    public void onMessage(Session session, @PathParam("roomId") String roomId, @PathParam("userEmail") String userEmail, String message) throws IOException{
-//        ChatMessage chatMessage = chatService.saveChatMessage(
-//                ChatMessageRequestDto.builder()
-//                        .roomId(roomId)
-//                        .sender(userEmail)
-//                        .content(message)
-//                        .build()
-//        );
-//        broadcast(chatMessage.getContent(), roomId);
-//    }
+    @OnMessage
+    public void onMessage(Session session, @PathParam("roomId") String roomId, @PathParam("userEmail") String userEmail, String message) throws IOException{
+        ChatMessage chatMessage = chatService.saveChatMessage(
+                ChatMessageRequestDto.builder()
+                        .roomId(roomId)
+                        .sender(userEmail)
+                        .content(message)
+                        .build()
+        );
+        broadcast(chatMessage.getContent(), roomId);
+    }
 
     @OnClose
     public void onClose(Session session, @PathParam("roomId") String roomId) {
