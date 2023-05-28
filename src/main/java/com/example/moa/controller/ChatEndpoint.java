@@ -45,7 +45,7 @@ public class ChatEndpoint {
                         .content(message)
                         .build()
         );
-        System.out.println("save success");
+        System.out.println("chatMessage : "+chatMessage);
         broadcast(chatMessage.getContent(), roomId);
     }
 

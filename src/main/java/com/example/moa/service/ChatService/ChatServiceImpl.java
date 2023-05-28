@@ -47,8 +47,11 @@ public class ChatServiceImpl implements  ChatService{
 
     @Override
     public ChatMessage saveChatMessage(ChatMessageRequestDto chatMessageDto) {
+        System.out.println("method start");
         ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
                 .orElseThrow(()-> new NotFindException(chatMessageDto.getRoomId() + "chatRoom is not found"));
+        System.out.println(chatRoom.getName());
+        System.out.println(chatMessageDto.getContent());
 
        return chatMessageRepository.save(
                 ChatMessage.builder()
