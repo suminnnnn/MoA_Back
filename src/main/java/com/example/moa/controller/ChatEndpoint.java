@@ -40,6 +40,7 @@ public class ChatEndpoint {
         System.out.println("message : " + message);
         System.out.println("roomId : "+ roomId);
         System.out.println("userEmail : " + userEmail);
+        System.out.println("chatService : " + chatService);
         ChatMessage chatMessage = chatService.saveChatMessage(
                 ChatMessageRequestDto.builder()
                         .roomId(roomId)
