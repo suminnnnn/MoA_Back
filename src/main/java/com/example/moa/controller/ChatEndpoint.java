@@ -1,6 +1,7 @@
 package com.example.moa.controller;
 
 
+import com.example.moa.config.ServerEndpointConfigurator;
 import com.example.moa.domain.ChatMessage;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.service.ChatService.ChatService;
@@ -11,18 +12,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.*;
 
 
-@ServerEndpoint("/chat/{roomId}/{userEmail}")
+@RequiredArgsConstructor
+@ServerEndpoint(value = "/chat/{roomId}/{userEmail}",configurator = ServerEndpointConfigurator.class)
 @Component
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
     @Autowired
-    private ChatService chatService;
+    private final ChatService chatService;
 
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
