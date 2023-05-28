@@ -50,7 +50,7 @@ public class ChatServiceImpl implements  ChatService{
         ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
                 .orElseThrow(()-> new NotFindException(chatMessageDto.getRoomId() + "chatRoom is not found"));
 
-        return chatMessageRepository.save(
+       return chatMessageRepository.save(
                 ChatMessage.builder()
                         .chatRoom(chatRoom)
                         .content(chatMessageDto.getContent())

@@ -1,22 +1,23 @@
 package com.example.moa.controller;
 
 
+import com.example.moa.domain.ChatMessage;
 import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.service.ChatService.ChatService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
 
+
 @RequiredArgsConstructor
-@ServerEndpoint("/chat/room")
+@ServerEndpoint("/chat/room/{roomId}/{userEmail}")
+@Service
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
@@ -24,21 +25,26 @@ public class ChatEndpoint {
     private final ChatService chatService;
 
     @OnOpen
-    public void onOpen(Session session) {
-        String roomId = "success";
+    public void onOpen(Session session, @PathParam("roomId") String roomId) {
         System.out.println("roomId : "+roomId);
         Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
         roomSessions.add(session);
     }
 
     @OnMessage
-    public void onMessage(@RequestBody ChatMessageRequestDto chatMessageRequestDto, Session session, @PathVariable String roomId) throws IOException{
-        chatService.saveChatMessage(chatMessageRequestDto);
-        broadcast(chatMessageRequestDto.getContent(), roomId);
+    public void onMessage(Session session, @PathParam("roomId") String roomId, @PathParam("userEmail") String userEmail, String message) throws IOException{
+        ChatMessage chatMessage = chatService.saveChatMessage(
+                ChatMessageRequestDto.builder()
+                        .roomId(roomId)
+                        .sender(userEmail)
+                        .content(message)
+                        .build()
+        );
+        broadcast(chatMessage.getContent(), roomId);
     }
 
     @OnClose
-    public void onClose(Session session, @PathVariable String roomId) {
+    public void onClose(Session session, @PathParam("roomId") String roomId) {
         Set<Session> sessions = roomSessionMap.get(roomId);
         if (sessions != null) {
             sessions.remove(session);
@@ -46,7 +52,7 @@ public class ChatEndpoint {
     }
 
     @OnError
-    public void onError(Session session, @PathVariable String roomId, Throwable throwable) {
+    public void onError(Session session, @PathParam("roomId") String roomId, Throwable throwable) {
         // 에러 처리 로직 작성
     }
 
