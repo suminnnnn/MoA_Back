@@ -1,16 +1,14 @@
 package com.example.moa.controller;
 
 
-import com.example.moa.domain.ChatMessage;
-import com.example.moa.dto.chat.ChatMessageRequestDto;
 import com.example.moa.service.ChatService.ChatService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
-import jakarta.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.*;
 
