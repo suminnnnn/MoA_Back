@@ -4,18 +4,17 @@ package com.example.moa.controller;
 import com.example.moa.service.ChatService.ChatService;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
+import jakarta.websocket.server.ServerEndpoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.*;
 
 
 @RequiredArgsConstructor
 @ServerEndpoint("/chat/{roomId}")
-@Service
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
@@ -63,9 +62,9 @@ public class ChatEndpoint {
         }
     }
 
-    private String extractRoomIdFromPath(String path) {
-        String[] parts = path.split("/");
-        return parts[3];
-    }
+//    private String extractRoomIdFromPath(String path) {
+//        String[] parts = path.split("/");
+//        return parts[3];
+//    }
 }
 
