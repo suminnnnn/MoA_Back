@@ -8,7 +8,6 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.util.*;
 
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @ServerEndpoint("/chat/{roomId}/{userEmail}")
 @Component
 public class ChatEndpoint {
