@@ -9,6 +9,7 @@ import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.util.*;
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
+    @Autowired
     private ChatService chatService;
 
 
@@ -35,6 +37,7 @@ public class ChatEndpoint {
 
     @OnMessage
     public void onMessage(Session session, @PathParam("roomId") String roomId, @PathParam("userEmail") String userEmail, String message) throws IOException{
+        System.out.println("message : " + message);
         ChatMessage chatMessage = chatService.saveChatMessage(
                 ChatMessageRequestDto.builder()
                         .roomId(roomId)
