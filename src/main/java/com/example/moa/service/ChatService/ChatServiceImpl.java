@@ -47,13 +47,14 @@ public class ChatServiceImpl implements  ChatService{
 
     @Override
     public ChatMessage saveChatMessage(ChatMessageRequestDto chatMessageDto) {
-        System.out.println("method start");
         ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
                 .orElseThrow(()-> new NotFindException(chatMessageDto.getRoomId() + "chatRoom is not found"));
-        System.out.println(chatRoom.getName());
-        System.out.println(chatMessageDto.getContent());
 
-       return chatMessageRepository.save(
+        System.out.println("chatRoom find success");
+        System.out.println("chatRoom name : "+chatRoom.getName());
+        System.out.println("get LocalTime : " + LocalDateTime.from(LocalDate.now()).getClass().getName());
+
+        ChatMessage chatMessage = chatMessageRepository.save(
                 ChatMessage.builder()
                         .chatRoom(chatRoom)
                         .content(chatMessageDto.getContent())
@@ -61,6 +62,9 @@ public class ChatServiceImpl implements  ChatService{
                         .timestamp(LocalDateTime.from(LocalDate.now()))
                         .build()
         );
+
+        System.out.println("chatMessage : "+ chatMessage);
+        return chatMessage;
     }
 
 //    @Override

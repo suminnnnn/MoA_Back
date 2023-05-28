@@ -36,10 +36,6 @@ public class ChatEndpoint {
 
     @OnMessage
     public void onMessage(Session session, @PathParam("roomId") String roomId, @PathParam("userEmail") String userEmail, String message) throws IOException{
-        System.out.println("message : " + message);
-        System.out.println("roomId : "+ roomId);
-        System.out.println("userEmail : " + userEmail);
-        System.out.println("chatService : " + chatService);
         ChatMessage chatMessage = chatService.saveChatMessage(
                 ChatMessageRequestDto.builder()
                         .roomId(roomId)
