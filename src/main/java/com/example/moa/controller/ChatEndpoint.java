@@ -16,7 +16,7 @@ import java.util.*;
 
 
 @RequiredArgsConstructor
-@ServerEndpoint("/chat/{roomId}/{userEmail}")
+@ServerEndpoint("/chat/{roomId}")
 @Service
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
@@ -26,23 +26,22 @@ public class ChatEndpoint {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("roomId") String roomId) {
-        System.out.println("success");
         System.out.println("roomId : "+roomId);
         Set<Session> roomSessions = roomSessionMap.computeIfAbsent(roomId, key -> Collections.synchronizedSet(new HashSet<>()));
         roomSessions.add(session);
     }
 
-    @OnMessage
-    public void onMessage(Session session, @PathParam("roomId") String roomId, @PathParam("userEmail") String userEmail, String message) throws IOException{
-        ChatMessage chatMessage = chatService.saveChatMessage(
-                ChatMessageRequestDto.builder()
-                        .roomId(roomId)
-                        .sender(userEmail)
-                        .content(message)
-                        .build()
-        );
-        broadcast(chatMessage.getContent(), roomId);
-    }
+//    @OnMessage
+//    public void onMessage(Session session, @PathParam("roomId") String roomId, @PathParam("userEmail") String userEmail, String message) throws IOException{
+//        ChatMessage chatMessage = chatService.saveChatMessage(
+//                ChatMessageRequestDto.builder()
+//                        .roomId(roomId)
+//                        .sender(userEmail)
+//                        .content(message)
+//                        .build()
+//        );
+//        broadcast(chatMessage.getContent(), roomId);
+//    }
 
     @OnClose
     public void onClose(Session session, @PathParam("roomId") String roomId) {
