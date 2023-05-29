@@ -46,6 +46,13 @@ public class GlobalExceptionHandler {
         errorResponse.put("errorMessage", "해당 모집글이 존재하지 않습니다.");
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(PlaceNotFoundException.class)
+    public ResponseEntity<Object> handleNotFindRecruitException (PlaceNotFoundException ex){
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("errorCode", "NOT_FOUND_PLACE");
+        errorResponse.put("errorMessage", "해당 장소가 존재하지 않습니다.");
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<Object> handleJwtException(JwtException ex) {

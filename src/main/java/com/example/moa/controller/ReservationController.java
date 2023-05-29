@@ -1,16 +1,17 @@
 package com.example.moa.controller;
 
 import com.example.moa.domain.Reservation;
+import com.example.moa.dto.reservation.AvailableScheduleDto;
 import com.example.moa.dto.reservation.ReservationDetailsDto;
 import com.example.moa.service.reservation.ReservationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +20,27 @@ public class ReservationController {
 
     @Autowired
     private final ReservationService reservationService;
+
+    @GetMapping("/list")
+    public ResponseEntity<?> showListOfKitchen() {
+        List<String> list = reservationService.findAllKitchen();
+
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/status/{place}")
+    public ResponseEntity<List<AvailableScheduleDto>> showStatusOfKitchen(@PathVariable String place) {
+        List<AvailableScheduleDto> lists = reservationService.findAvailableDateTime(place);
+
+        return ResponseEntity.ok().body(lists);
+    }
+
+    @GetMapping("/{place}")
+    public ResponseEntity<String> showReservationLink(@PathVariable String place){
+        String reservationUrl = reservationService.getReservationUrl(place);
+
+        return ResponseEntity.ok().body(reservationUrl);
+    }
 
     @PostMapping("/confirm")
     public ResponseEntity<?> confirmReservation(@RequestBody ReservationDetailsDto reservationDetailsDto){
