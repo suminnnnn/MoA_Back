@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,7 +77,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     @Override
     public void allowRecruitUser(Long id) {
         RecruitUser recruitUser = recruitUserRepository.findById(id)
-                .orElseThrow(() -> new NotFindException("Not find recruitUser"));
+                .orElseThrow(() -> new IllegalArgumentException("Not find recruitUser"));
 
         Recruit recruit = recruitUser.getRecruit();
         User user = recruitUser.getUser();
@@ -88,6 +89,15 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
         String chatRoomId = recruit.getChatRoomId();
         user.getChatRoomId().add(chatRoomId);
+
+        for(Ingredient ingredient : recruitUser.getIngredients()){
+            recruit.getIngredients().add(ingredient);
+            Optional<Ingredient> remove_ingredient = ingredientRepository.findByName(ingredient.getName());
+
+            if(remove_ingredient.isPresent()) {
+                recruit.getNeedIngredients().remove(remove_ingredient.get().getName());
+            }
+        }
     }
 
     @Override
@@ -105,7 +115,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     public boolean isMaxPeople(Long id){
         Recruit recruit = recruitRepository.findById(id)
                 .orElseThrow(()->new NotFindException(id + " recruit not found"));;
-        return recruit.getMaxPeople() > recruit.getUsers().size() ? true : false ;
+        return recruit.getMaxPeople() - 1 > recruit.getUsers().size() ? true : false ;
     }
 
 

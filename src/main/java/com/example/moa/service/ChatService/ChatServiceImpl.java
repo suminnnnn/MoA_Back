@@ -63,17 +63,6 @@ public class ChatServiceImpl implements  ChatService{
         return chatMessage;
     }
 
-//    @Override
-//    public String createChatRoom(){
-//        String roomId = "personal-"+ChatRoom.num++;
-//        chatRoomRepository.save(
-//                ChatRoom.builder()
-//                        .id(roomId)
-//                        .build()
-//        );
-//        return roomId;
-//    }
-
     @Override
     public List<ChatRoomDto> showList(String email){
         User user = userRepository.findByEmail(email)
