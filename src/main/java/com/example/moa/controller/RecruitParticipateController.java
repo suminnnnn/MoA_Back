@@ -36,7 +36,7 @@ public class RecruitParticipateController {
         return ResponseEntity.ok()
                 .body(recruitUsers);
     }
-    @PostMapping("/allow/{userId}")
+    @GetMapping("/allow/{userId}")
     public ResponseEntity<?> participateAllow(@PathVariable Long userId){
         participateService.allowRecruitUser(userId);
 
