@@ -50,10 +50,6 @@ public class ChatServiceImpl implements  ChatService{
         ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
                 .orElseThrow(()-> new NotFindException(chatMessageDto.getRoomId() + "chatRoom is not found"));
 
-        System.out.println("chatRoom find success");
-        System.out.println("chatRoom name : "+chatRoom.getName());
-        System.out.println("get LocalTime : " + LocalDateTime.now());
-
         ChatMessage chatMessage = chatMessageRepository.save(
                 ChatMessage.builder()
                         .chatRoom(chatRoom)

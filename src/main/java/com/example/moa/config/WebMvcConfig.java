@@ -23,9 +23,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration registration = registry.addInterceptor(jwtTokenInterceptor);
         registration.addPathPatterns("/**");
-//        registration.addPathPatterns("/**");
-//        registration.excludePathPatterns("/user/**")
-//                        .excludePathPatterns("/chat/room/**");
 
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/recruit/**")

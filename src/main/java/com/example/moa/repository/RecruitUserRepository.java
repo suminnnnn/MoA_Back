@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface RecruitUserRepository extends JpaRepository<RecruitUser, Long> {
     List<RecruitUser> findByRecruit(Recruit recruit);
+
 }

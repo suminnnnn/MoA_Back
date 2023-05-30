@@ -77,4 +77,5 @@ public class RecruitController{
         List<RecruitCreateResponseDto> recruits = recruitService.findMyList(email);
         return ResponseEntity.ok().body(recruits);
     }
+
 }

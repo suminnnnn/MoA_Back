@@ -2,7 +2,8 @@ package com.example.moa.service.recruit;
 
 import com.example.moa.domain.*;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
-import com.example.moa.dto.recruit.RecruitUserDto;
+import com.example.moa.dto.recruit.RecruitUserRequestDto;
+import com.example.moa.dto.recruit.RecruitUserResponseDto;
 import com.example.moa.exception.DuplicateEmailException;
 import com.example.moa.exception.NotFindException;
 import com.example.moa.exception.UserNoIngredientException;
@@ -35,7 +36,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
 
     @Override
-    public void saveRecruitUser(RecruitUserDto recruitUserDto) {
+    public void saveRecruitUser(RecruitUserRequestDto recruitUserDto) {
 
         Recruit recruit = recruitRepository.findById(recruitUserDto.getRecruitId())
                 .orElseThrow( () -> new IllegalArgumentException("Invalid recruit Id"));
@@ -47,7 +48,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
         participationDuplicate(recruit,user);
 
-        for(Long i : recruitUserDto.getId()){
+        for(Long i : recruitUserDto.getIngredient_id()){
             ingredients.add(ingredientRepository.findById(i)
                     .orElseThrow(()->new UserNoIngredientException("No have ingredient")));
         }
@@ -61,6 +62,17 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
         );
     }
 
+    @Override
+    public List<RecruitUserResponseDto> showParticipateList(Long id) {
+        //recruit id
+        Recruit recruit = recruitRepository.findById(id)
+                .orElseThrow(()->new NotFindException(id + " recruit not found"));
+        List<RecruitUser> recruitUsers = recruitUserRepository.findByRecruit(recruit);
+
+        return recruitUsers.stream()
+                .map(RecruitUserResponseDto::from)
+                .collect(Collectors.toList());
+    }
     @Override
     public void allowRecruitUser(Long id) {
         RecruitUser recruitUser = recruitUserRepository.findById(id)

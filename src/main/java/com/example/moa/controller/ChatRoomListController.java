@@ -20,13 +20,6 @@ public class ChatRoomListController {
     @Autowired
     private final ChatService chatService;
 
-//    @PostMapping("/chat/create")
-//    public ResponseEntity<String> createChatRoom() {
-//        String email = (String) httpServletRequest.getAttribute("email");
-//
-//        String roomId = chatService.createChatRoom();
-//        return ResponseEntity.ok().body(roomId);
-//    }
     @GetMapping("/chat/list")
     public ResponseEntity<List<ChatRoomDto>> showChatRoomList(HttpServletRequest httpServletRequest) {
         String email = (String) httpServletRequest.getAttribute("email");
