@@ -1,5 +1,6 @@
 package com.example.moa.dto.recruit;
 
+import com.example.moa.dto.ingredient.IngredientRequestDto;
 import lombok.*;
 
 import java.util.List;
@@ -8,12 +9,11 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class RecruitUserDto {
+public class RecruitUserRequestDto {
+
+    private List<Long> ingredient_id;
 
     private Long recruitId = null;
 
     private String userEmail=null;
-
-    private List<Long> id;
-
 }

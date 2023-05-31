@@ -22,13 +22,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration registration = registry.addInterceptor(jwtTokenInterceptor);
-        registration.addPathPatterns("/**");
-        registration.excludePathPatterns("/user/**");
+        registration.addPathPatterns("/recruit/**");
 
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/recruit/**")
                 .addPathPatterns("/user/ingredient/register")
-                .addPathPatterns("/mypage/**");
+                .addPathPatterns("/mypage/**")
+                .addPathPatterns("/chat/list");
     }
 }
 

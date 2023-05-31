@@ -4,6 +4,7 @@ import com.example.moa.domain.User;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Builder
@@ -26,6 +27,7 @@ public class SignUpDto {
                .gender(gender)
                .name(name)
                .birth(birth)
+               .chatRoomId(new ArrayList<>())
                .build();
     }
 

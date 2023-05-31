@@ -1,7 +1,8 @@
 package com.example.moa.controller;
 
 import com.example.moa.dto.ingredient.IngredientResponseDto;
-import com.example.moa.dto.recruit.RecruitUserDto;
+import com.example.moa.dto.recruit.RecruitUserRequestDto;
+import com.example.moa.dto.recruit.RecruitUserResponseDto;
 import com.example.moa.service.recruit.RecruitParticipateService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,14 @@ public class RecruitParticipateController {
                 .body(new ApiResponse("참여 가능합니다.", "200"));
     }
 
-    @PostMapping("/allow/{userId}")
+    @GetMapping("/list")
+    public ResponseEntity<List<RecruitUserResponseDto>> participateList(@PathVariable Long id){
+        List<RecruitUserResponseDto> recruitUsers = participateService.showParticipateList(id);
+
+        return ResponseEntity.ok()
+                .body(recruitUsers);
+    }
+    @GetMapping("/allow/{userId}")
     public ResponseEntity<?> participateAllow(@PathVariable Long userId){
         participateService.allowRecruitUser(userId);
 
@@ -37,7 +45,7 @@ public class RecruitParticipateController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitUserDto recruitUserDto){
+    public ResponseEntity<?> participateRecruit(HttpServletRequest httpServletRequest, @PathVariable Long id, @RequestBody RecruitUserRequestDto recruitUserDto){
         if(!participateService.isMaxPeople(id)){
             return ResponseEntity.badRequest().body("인원 초과입니다.");
         }

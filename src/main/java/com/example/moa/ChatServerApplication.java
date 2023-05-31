@@ -12,8 +12,8 @@ public class ChatServerApplication {
         SpringApplication.run(ChatServerApplication.class, args);
     }
 
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+//    @Bean
+//    public ServerEndpointExporter serverEndpointExporter() {
+//        return new ServerEndpointExporter();
+//    }
 }

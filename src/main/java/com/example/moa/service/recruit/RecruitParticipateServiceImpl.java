@@ -2,14 +2,12 @@ package com.example.moa.service.recruit;
 
 import com.example.moa.domain.*;
 import com.example.moa.dto.ingredient.IngredientResponseDto;
-import com.example.moa.dto.recruit.RecruitUserDto;
+import com.example.moa.dto.recruit.RecruitUserRequestDto;
+import com.example.moa.dto.recruit.RecruitUserResponseDto;
 import com.example.moa.exception.DuplicateEmailException;
 import com.example.moa.exception.NotFindException;
 import com.example.moa.exception.UserNoIngredientException;
-import com.example.moa.repository.IngredientRepository;
-import com.example.moa.repository.RecruitRepository;
-import com.example.moa.repository.RecruitUserRepository;
-import com.example.moa.repository.UserRepository;
+import com.example.moa.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +32,12 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     @Autowired
     private final IngredientRepository ingredientRepository;
 
+    @Autowired
+    private final ChatRoomRepository chatRoomRepository;
+
 
     @Override
-    public void saveRecruitUser(RecruitUserDto recruitUserDto) {
+    public void saveRecruitUser(RecruitUserRequestDto recruitUserDto) {
 
         Recruit recruit = recruitRepository.findById(recruitUserDto.getRecruitId())
                 .orElseThrow( () -> new IllegalArgumentException("Invalid recruit Id"));
@@ -47,7 +49,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
         participationDuplicate(recruit,user);
 
-        for(Long i : recruitUserDto.getId()){
+        for(Long i : recruitUserDto.getIngredient_id()){
             ingredients.add(ingredientRepository.findById(i)
                     .orElseThrow(()->new UserNoIngredientException("No have ingredient")));
         }
@@ -62,9 +64,20 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     }
 
     @Override
+    public List<RecruitUserResponseDto> showParticipateList(Long id) {
+        //recruit id
+        Recruit recruit = recruitRepository.findById(id)
+                .orElseThrow(()->new NotFindException(id + " recruit not found"));
+        List<RecruitUser> recruitUsers = recruitUserRepository.findByRecruit(recruit);
+
+        return recruitUsers.stream()
+                .map(RecruitUserResponseDto::from)
+                .collect(Collectors.toList());
+    }
+    @Override
     public void allowRecruitUser(Long id) {
         RecruitUser recruitUser = recruitUserRepository.findById(id)
-                .orElseThrow(() -> new NotFindException("Not find recruitUser"));
+                .orElseThrow(() -> new IllegalArgumentException("Not find recruitUser"));
 
         Recruit recruit = recruitUser.getRecruit();
         User user = recruitUser.getUser();
@@ -73,6 +86,18 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
         recruit.getRecruitUsers().remove(recruitUser);
         recruitUserRepository.delete(recruitUser);
+
+        String chatRoomId = recruit.getChatRoomId();
+        user.getChatRoomId().add(chatRoomId);
+
+        for(Ingredient ingredient : recruitUser.getIngredients()){
+            recruit.getIngredients().add(ingredient);
+            Optional<Ingredient> remove_ingredient = ingredientRepository.findByName(ingredient.getName());
+
+            if(remove_ingredient.isPresent()) {
+                recruit.getNeedIngredients().remove(remove_ingredient.get().getName());
+            }
+        }
     }
 
     @Override
@@ -90,7 +115,7 @@ public class RecruitParticipateServiceImpl implements RecruitParticipateService{
     public boolean isMaxPeople(Long id){
         Recruit recruit = recruitRepository.findById(id)
                 .orElseThrow(()->new NotFindException(id + " recruit not found"));;
-        return recruit.getMaxPeople() > recruit.getUsers().size() ? true : false ;
+        return recruit.getMaxPeople() - 1 > recruit.getUsers().size() ? true : false ;
     }
 
 

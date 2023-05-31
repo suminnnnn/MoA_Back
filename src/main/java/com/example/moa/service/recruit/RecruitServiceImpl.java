@@ -32,17 +32,22 @@ public class RecruitServiceImpl implements RecruitService {
     @Override
     public Recruit saveRecruit(RecruitCreateRequestDto requestDto) {
         User writer = userRepository.findByEmail(requestDto.getWriterEmail())
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + requestDto.getWriterEmail()));
 
         Recruit recruit = requestDto.toEntity(writer);
+        recruitRepository.save(recruit);
 
-        recruit.setChatRoomId("recruit-"+recruit.getId());
-        chatRoomRepository.save(
+        String chatRoomId = "recruit-"+recruit.getId();
+        writer.getChatRoomId().add(chatRoomId);
+        recruit.setChatRoomId(chatRoomId);
+
+       chatRoomRepository.save(
                 ChatRoom.builder()
-                        .id(recruit.getChatRoomId())
+                        .id(chatRoomId)
+                        .name(recruit.getTitle())
                         .build()
         );
-        return recruitRepository.save(recruit);
+        return recruit;
     }
 
 
@@ -84,5 +89,12 @@ public class RecruitServiceImpl implements RecruitService {
         return recruit.getChatRoomId();
     }
 
+    @Override
+    public List<RecruitCreateResponseDto> findMyList(String email){
+        List<Recruit> recruits = recruitRepository.findByWriterEmail(email);
+        return recruits.stream()
+                .map(RecruitCreateResponseDto::from)
+                .collect(Collectors.toList());
+    }
 }
 
