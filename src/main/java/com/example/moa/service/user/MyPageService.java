@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MyPageService {
-    List<Ingredient> getAllIngredients(Optional<String> email);
-    List<Reservation> getAllReservations(Optional<String> email);
+    List<Ingredient> getAllIngredients(String email);
+    List<Reservation> getAllReservations(String email);
     UserInfoDto getUserInfos(String email);
 }

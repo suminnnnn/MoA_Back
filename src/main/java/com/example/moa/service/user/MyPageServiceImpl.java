@@ -27,14 +27,14 @@ public class MyPageServiceImpl implements MyPageService{
     private final UserRepository userRepository;
 
     @Override
-    public List<Ingredient> getAllIngredients(Optional<String> email) {
+    public List<Ingredient> getAllIngredients(String email) {
         User user = userRepository.findByEmail(String.valueOf(email))
                 .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + email));
         return user.getIngredients();
     }
 
     @Override
-    public List<Reservation> getAllReservations(Optional<String> email) {
+    public List<Reservation> getAllReservations(String email) {
         User user = userRepository.findByEmail(String.valueOf(email))
                 .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + email));
         return user.getReservations();

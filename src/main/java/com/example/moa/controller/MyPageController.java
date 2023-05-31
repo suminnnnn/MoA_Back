@@ -39,7 +39,7 @@ public class MyPageController {
 
     @GetMapping("/ingredients")
     public ResponseEntity<List<MyIngredientDto>> showMyIngredients(HttpServletRequest httpServletRequest){
-        Optional<String> email = Optional.ofNullable((String) httpServletRequest.getAttribute("email"));
+        String email = (String) httpServletRequest.getAttribute("email");
         List<Ingredient> ingredients = myPageService.getAllIngredients(email);
 
         List<MyIngredientDto> myIngredientDtos = new ArrayList<>();
@@ -57,7 +57,7 @@ public class MyPageController {
 
     @GetMapping("/reservations")
     public ResponseEntity<List<MyReservationDto>> showMyReservations(HttpServletRequest httpServletRequest){
-        Optional<String> email = Optional.ofNullable((String) httpServletRequest.getAttribute("email"));
+        String email = (String) httpServletRequest.getAttribute("email");
         List<Reservation> reservations = myPageService.getAllReservations(email);
 
         List<MyReservationDto> myReservationDtos = new ArrayList<>();
