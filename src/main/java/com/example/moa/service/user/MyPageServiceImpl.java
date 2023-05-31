@@ -41,7 +41,7 @@ public class MyPageServiceImpl implements MyPageService{
     }
 
     @Override
-    public UserInfoDto getUserInfos(Optional<String> email) {
+    public UserInfoDto getUserInfos(String email) {
         User user = userRepository.findByEmail(String.valueOf(email))
                 .orElseThrow(() -> new IllegalArgumentException("User not found for email: " + email));
 

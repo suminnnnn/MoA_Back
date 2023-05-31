@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
-
 @Getter
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class UserInfoDto {
     private String name;
-    private Optional<String> userEmail;
+    private String email;
     private String birth;
 }

@@ -30,7 +30,7 @@ public class MyPageController {
 
     @GetMapping("/info")
     public ResponseEntity<UserInfoDto> showUserInfos(HttpServletRequest httpServletRequest){
-        Optional<String> email = Optional.ofNullable((String) httpServletRequest.getAttribute("email"));
+        String email = (String) httpServletRequest.getAttribute("email");
 
         UserInfoDto infos = myPageService.getUserInfos(email);
 

@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface MyPageService {
     List<Ingredient> getAllIngredients(Optional<String> email);
     List<Reservation> getAllReservations(Optional<String> email);
-    UserInfoDto getUserInfos(Optional<String> email);
+    UserInfoDto getUserInfos(String email);
 }
