@@ -21,8 +21,6 @@ import java.util.List;
 public class ChatController {
 
    @Autowired
-   private final SimpMessagingTemplate messagingTemplate;
-   @Autowired
    private final ChatService chatService;
 
 //    @MessageMapping("/chat.sendMessage")
