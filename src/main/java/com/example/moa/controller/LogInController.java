@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class LogInController{
-    @Autowired
+
     private final LoginService loginService;
 
     @PostMapping("/login")

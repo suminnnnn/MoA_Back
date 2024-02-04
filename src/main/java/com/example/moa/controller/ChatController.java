@@ -20,26 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatController {
 
-   @Autowired
    private final ChatService chatService;
 
-//    @MessageMapping("/chat.sendMessage")
-//    public void sendMessage(@RequestBody ChatMessageRequestDto chatMessageDto) {
-//        // 채팅 메시지를 저장
-//        ChatMessage chatMessage = chatService.saveChatMessage(chatMessageDto);
-//
-//        // 메시지를 해당 채팅방의 구독자에게 전송
-//        messagingTemplate.convertAndSend("/topic/room/" + chatMessageDto.getRoomId(), chatMessage);
-//    }
-//
-//    @SubscribeMapping("/chat/{roomId}")
-//    public void subscribeToRoom(@DestinationVariable String roomId, SimpMessageHeaderAccessor headerAccessor) {
-//        String topic = "/topic/room/" + roomId;
-//        String sessionId = headerAccessor.getSessionId();
-//
-//        messagingTemplate.convertAndSend(topic, "New user subscribed: " + sessionId);
-//    }
-//
    @GetMapping("/chat/{roomId}/messages")
    public ResponseEntity<List<ChatMessageResponseDto>> getChatMessages(@PathVariable String roomId) {
        List<ChatMessageResponseDto> chatMessages = chatService.getChatMessagesByRoomId(roomId);

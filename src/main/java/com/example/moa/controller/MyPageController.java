@@ -25,7 +25,6 @@ import java.util.Optional;
 @RequestMapping("/mypage")
 public class MyPageController {
 
-    @Autowired
     private final MyPageService myPageService;
 
     @GetMapping("/info")

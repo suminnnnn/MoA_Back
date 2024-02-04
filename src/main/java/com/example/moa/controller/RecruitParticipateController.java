@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/recruit/{id}/participate")
 @RequiredArgsConstructor
 public class RecruitParticipateController {
-    @Autowired
+
     private final RecruitParticipateService participateService;
 
     @GetMapping

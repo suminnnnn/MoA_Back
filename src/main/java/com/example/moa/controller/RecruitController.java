@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecruitController{
 
-    @Autowired
     private final RecruitService recruitService;
 
     @GetMapping("/list")

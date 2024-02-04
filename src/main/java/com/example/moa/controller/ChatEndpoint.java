@@ -22,7 +22,6 @@ import java.util.*;
 public class ChatEndpoint {
     private static Map<String, Set<Session>> roomSessionMap = new HashMap<>();
 
-    @Autowired
     private final ChatService chatService;
 
     @OnOpen
@@ -67,9 +66,5 @@ public class ChatEndpoint {
         }
     }
 
-//    private String extractRoomIdFromPath(String path) {
-//        String[] parts = path.split("/");
-//        return parts[3];
-//    }
 }
 

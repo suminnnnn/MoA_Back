@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatRoomListController {
 
-    @Autowired
     private final ChatService chatService;
 
     @GetMapping("/chat/list")

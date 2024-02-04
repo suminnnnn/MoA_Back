@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/user/ingredient")
 public class UserIngredientController {
-    @Autowired
+
     private final UserIngredientService userIngredientService;
 
     @PostMapping("/image")
@@ -49,7 +49,6 @@ public class UserIngredientController {
         return new ResponseEntity<>(ingredientImageDto, HttpStatus.OK);
     }
 
-    //2. 영수증 사진 등록 -> 서버에 이미지 파일 저장 -> url 리턴
     @PostMapping("/receiptImage")
     public ResponseEntity<?> receiptImage(@RequestParam("file") MultipartFile file) {
         String url = null;
@@ -71,7 +70,7 @@ public class UserIngredientController {
         ingredientDto.setUserEmail(email);
         userIngredientService.registerUserIngredient(ingredientDto);
 
-        return new ResponseEntity<>("재료 등록이 완료되었습니다.", HttpStatus.CREATED); //201
+        return new ResponseEntity<>("재료 등록이 완료되었습니다.", HttpStatus.CREATED);
     }
 
 }
