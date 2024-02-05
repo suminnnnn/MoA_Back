@@ -34,11 +34,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
-    @Autowired
     private final ReservationRepository reservationRepository;
-    @Autowired
+
     private final RecruitRepository recruitRepository;
-    @Autowired
+
     private final UserRepository userRepository;
 
 

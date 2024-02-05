@@ -25,13 +25,11 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class ChatServiceImpl implements  ChatService{
-    @Autowired
+
     private final ChatMessageRepository chatMessageRepository;
 
-    @Autowired
     private final ChatRoomRepository chatRoomRepository;
 
-    @Autowired
     private final UserRepository userRepository;
 
     @Override

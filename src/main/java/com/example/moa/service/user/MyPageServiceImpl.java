@@ -21,9 +21,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MyPageServiceImpl implements MyPageService{
 
-    @Autowired
     private final IngredientRepository ingredientRepository;
-    @Autowired
+
     private final UserRepository userRepository;
 
     @Override

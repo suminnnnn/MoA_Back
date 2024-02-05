@@ -20,13 +20,11 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class RecruitServiceImpl implements RecruitService {
-    @Autowired
+
     private final RecruitRepository recruitRepository;
 
-    @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
     private final ChatRoomRepository chatRoomRepository;
 
     @Override

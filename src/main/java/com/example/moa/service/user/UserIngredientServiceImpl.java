@@ -33,13 +33,10 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class UserIngredientServiceImpl implements UserIngredientService {
 
-    @Autowired
     private final IngredientRepository ingredientRepository;
-    @Autowired
+
     private final UserRepository userRepository;
 
-
-    @Autowired
     private Translate translate;
 
     public String uploadReceiptImage(MultipartFile multipartFile){

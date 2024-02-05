@@ -17,13 +17,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService{
 
-    @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     private final JwtTokenUtil jwtTokenUtil;
 
     @Override

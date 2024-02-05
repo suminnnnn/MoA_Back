@@ -23,16 +23,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RecruitParticipateServiceImpl implements RecruitParticipateService{
 
-    @Autowired
     private final RecruitRepository recruitRepository;
-    @Autowired
+
     private final UserRepository userRepository;
-    @Autowired
+
     private final RecruitUserRepository recruitUserRepository;
-    @Autowired
+
     private final IngredientRepository ingredientRepository;
 
-    @Autowired
     private final ChatRoomRepository chatRoomRepository;
 
 
