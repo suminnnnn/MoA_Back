@@ -31,12 +31,6 @@ public class User {
     @Column(name = "birth")
     private String birth;
 
-    @Column(name = "matching_count")
-    private int matchingCount;
-
-    @Column(name = "favorite_friends")
-    private String favoriteFriends;
-
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL)
     private List<Recruit> MyRecruits = new ArrayList<>();
 
@@ -55,5 +49,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "reservation_id"))
     private List<Reservation> reservations = new ArrayList<>();
 
+    @Lob
     private List<String> chatRoomId;
 }
